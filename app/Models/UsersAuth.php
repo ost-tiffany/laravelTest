@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class UsersAuth extends Authenticatable
 {
     use Notifiable;
 
@@ -19,6 +19,7 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+    //after login liatnya ini
     protected $primaryKey = 'user_id';
     /**
      * The attributes that should be hidden for arrays.

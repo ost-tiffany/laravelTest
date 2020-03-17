@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\User;
+use App\Models\Users as Users;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo ='login';
 
     /**
      * Create a new controller instance.
@@ -51,27 +52,44 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
-
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\Users
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+
+        $rules = [
+            'user_name' => ['required', 'string'],
+            'realname' => ['required', 'string'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string'],
+            'birthday' => ['required', 'date'],
+            'gender' => ['required'],
+        ];
+
+        $messages = [
+            'realname.required' => 'フルネームを入力してください。',
+            'user_name.required' => config('glossary.register.user_name') .'を入力してください' ,
+        ];
+        
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if($validator->fails()) {
+            return redirect('register')->withErrors($validator)->withInput();
+        } 
+        else {
+            $users = new Users();
+            $users->user_name = $request->user_name;
+            $users->realname = $request->realname;
+            $users->email = $request->email;
+            $users->password = Hash::make($request->password);
+            $users->birthday = $request->birthday;
+            $users->gender = $request->gender;
+            $users->save();
+        }
     }
 }

@@ -7,7 +7,8 @@ use Auth;
 use App\Providers\RouteServiceProvider;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User as Users;
+use App\Models\Users as Users;
+use Illuminate\Support\MessageBag;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -36,7 +37,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/users';
+    protected $redirectTo = 'home';
 
     /**
      * Create a new controller instance.
@@ -49,12 +50,21 @@ class LoginController extends Controller
     }
 
     public function dologin(Request $request) {
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password]))
-        {
-            echo 'masuk';
-        } else {
-            echo 'failed';
+        if (Auth::attempt(['user_name' => $request->user_name, 'password' => $request->password]))
+        {   
+            return redirect('home')->with('alert-success', 'You are now logged in.');;
+        }
+        
+        else {
+            $errors = new MessageBag;
+            $errors = new MessageBag(['invalid' => ['Email and/or password invalid.']]); 
+            return redirect('login')->withErrors($errors);
         }
 
     }
+
+    public function logout(Request $request) {
+        Auth::logout();
+        return redirect('/login');
+      }
 }

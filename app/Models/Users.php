@@ -11,8 +11,9 @@ class Users extends Model
 
     protected $primaryKey = 'user_id';
 
+    protected $fillable = ['user_name', 'realname', 'email', 'password', 'birthday', 'gender'];
+
     public function getUserList() {
         return $this->select()->get()->toArray();
-
     }
 }

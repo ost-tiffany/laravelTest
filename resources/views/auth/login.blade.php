@@ -11,13 +11,19 @@
                     <form method="POST" action="{{ route('dologin') }}">
                         @csrf
 
+                        @if ($error = $errors->first('invalid'))
+                            <div class="alert alert-danger">
+                                {{ $error }}
+                            </div>
+                        @endif
+
                         <div class="form-group row">
-                            <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
+                            <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('User name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="username" type="text" class="form-control @error('email') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="email" autofocus>
+                                <input id="user_name" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('username') }}" required autocomplete="email" autofocus>
 
-                                @error('username')
+                                @error('user_name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
