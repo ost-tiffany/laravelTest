@@ -60,14 +60,20 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('userlist') }}">{{ __('User list') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('productlist') }}">{{ __('Product list') }}</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ __('Hello ') }}{{ Auth::user()->user_name }} <span class="caret"></span>
+                                    <span class="caret">{{ __('My Page') }}</span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('userlist') }}">{{ __('User list') }}</a>
-                                    <a class="dropdown-item" href="{{ route('productlist') }}">{{ __('Product list') }}</a>
+                                    <a class="dropdown-item" href="{{ route('mypage') }}">{{ __("Profile") }}</a>
+                                    <a class="dropdown-item" href="{{ route('transactionlist') }}">{{ __("transaction") }}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -8,12 +8,16 @@
 
 <table class="table table-bordered col-8 offset-md-2">
     <thead>
+        </tr>
+            <th colspan='5'>
+                USER LIST
+            </th>
+        </tr>
         <tr>
             <th scope="col">ユーザID</th>
             <th scope="col">ユーザ名</th>
             <th scope="col">メールアドレス</th>
-            <th scope="col">性別</th>
-            <th scope="col"></th>
+            <th class="table-borderless" scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -22,8 +26,7 @@
                 <th>{{ $user["user_id"] }}</th>
                 <td>{{ $user["user_name"] }}</td>
                 <td>{{ $user["email"] }}</td>
-                <td>{{ $user["gender"] == 1 ? "男" : "女" }}</td>
-                <td><button type="button" class="btn btn-success">Edit</button> &nbsp; <button type="button" class="btn btn-danger">Delete</button></td>
+            <td><a class="btn btn-success" id="edituser" name="edituser" href="{{ route('useredit',['user_id'=>$user["user_id"]]) }}">Edit</a> &nbsp; <button type="button" class="btn btn-danger">Delete</button></td>
             </tr>
         @endforeach
     </tbody>

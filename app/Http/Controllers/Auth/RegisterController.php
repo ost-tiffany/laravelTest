@@ -71,8 +71,11 @@ class RegisterController extends Controller
         ];
 
         $messages = [
-            'realname.required' => 'フルネームを入力してください。',
             'user_name.required' => config('glossary.register.user_name') .'を入力してください' ,
+            'realname.required' => config('glossary.register.realname') .'を入力してください' ,
+            'email.required' => config('glossary.register.email') .'を入力してください' ,
+            'password.required' => config('glossary.register.password') .'を入力してください' ,
+            'birthday.required' => config('glossary.register.birthday') .'を入力してください' ,
         ];
         
 

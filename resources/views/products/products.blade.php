@@ -5,9 +5,14 @@
 
 @section('content')
 
-<h1> Wood Craft </h1>
+
 <table class="table table-bordered col-8 offset-md-2">
     <thead>
+        </tr>
+            <th colspan='5'>
+               WOOD
+            </th>
+        </tr>
         <tr>
             <th scope="col">製品ID</th>
             <th scope="col">製品名</th>
@@ -28,9 +33,13 @@
         </tbody>
     </table>
 
-<h1> Others </h1>
     <table class="table table-bordered col-8 offset-md-2">
-      <thead>
+        <thead>
+            </tr>
+                <th colspan='5'>
+                WOOD
+                </th>
+            </tr>
             <tr>
                 <th scope="col">書類</th>
                 <th scope="col">製品ID</th>
@@ -38,8 +47,8 @@
                 <th scope="col">職人</th>
                 <th scope="col">製品画像</th>
             </tr>
-      </thead>
-      <tbody>
+        </thead>
+        <tbody>
           @foreach ($productlist as $product)
             <tr>
                 <th>{{ $product["product_type"] }}</th>
@@ -50,7 +59,7 @@
                 <td><button type="button" class="btn btn-success">Edit</button> &nbsp; <button type="button" class="btn btn-danger">Delete</button></td>
             </tr>
           @endforeach
-      </tbody>
+        </tbody>
     </table>
 
 

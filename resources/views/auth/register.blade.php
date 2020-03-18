@@ -84,13 +84,14 @@
                         <div class="form-group row">
                             <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
 
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gender" id="gender" value="1" checked>
+                            <div class="form-check ">
+                                <input class="form-check-inline" type="radio" name="gender" id="gender" value="1" checked>
                                 <label class="form-check-label" for="male"> Male </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gender" id="gender" value="2">
+                                <input class="form-check-inline" type="radio" name="gender" id="gender" value="2">
                                 <label class="form-check-label" for="female"> Female </label>
+
                             </div>
                         </div>
 
