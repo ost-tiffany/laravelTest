@@ -52,7 +52,7 @@ class LoginController extends Controller
     public function dologin(Request $request) {
         if (Auth::attempt(['user_name' => $request->user_name, 'password' => $request->password]))
         {   
-            return redirect('home')->with('alert-success', 'You are now logged in.');;
+            return redirect('home')->with('alert-success', 'You are now logged in.');
         }
         
         else {

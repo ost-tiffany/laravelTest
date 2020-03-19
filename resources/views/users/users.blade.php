@@ -5,6 +5,13 @@
 
 @section('content')
 
+@if ($alert = Session::get('alert-success'))
+    <div class="row justify-content-center text-justify">
+        <div class="alert alert-warning">
+            {{ $alert }}
+        </div>
+    </div>
+@endif
 
 <table class="table table-bordered col-8 offset-md-2">
     <thead>

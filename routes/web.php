@@ -11,22 +11,24 @@
 |
 */
 
-Route::get('/home', ['uses'=>'HomeController@index', 'as'=>'home'])->middleware('auth');
+Route::get('/home', ['uses'=>'HomeController@index', 'as'=>'home'])->middleware('auth'); //login
 Route::get('/login',['uses'=>'Auth\LoginController@index', 'as'=>'login']);
 Route::post('/login',['uses'=>'Auth\LoginController@dologin', 'as'=>'dologin']);
-Route::get('/mypage', ['uses'=>'UsersController@show', 'as'=>'mypage'])->middleware('auth');
+Route::get('/mypage', ['uses'=>'UsersController@show', 'as'=>'mypage'])->middleware('auth'); //logged in account
+Route::post('/logout', ['uses'=>'Auth\LoginController@logout', 'as'=>'logout']); //logout
 
-Route::get('/register', ['uses'=>'Auth\RegisterController@index', 'as'=>'register']);
+Route::get('/register', ['uses'=>'Auth\RegisterController@index', 'as'=>'register']); //register
 Route::post('/register', ['uses'=>'Auth\RegisterController@create', 'as'=>'register']);
-Route::post('/logout', ['uses'=>'Auth\LoginController@logout', 'as'=>'logout']);
 
-Route::get('/users', ['uses'=>'UsersController@index', 'as'=>'userlist'])->middleware('auth');
-Route::get('users/edit/{user_id}', ['uses'=>'UsersController@update', 'as'=>'useredit'])->middleware('auth');
+Route::get('/users', ['uses'=>'UsersController@index', 'as'=>'userlist'])->middleware('auth'); //view
+Route::get('users/edit/{user_id}', ['uses'=>'UsersController@update', 'as'=>'useredit'])->middleware('auth'); //edit
 Route::post('users/edit/{user_id}', ['uses'=>'UsersController@update', 'as'=>'douseredit'])->middleware('auth');
+Route::get('users/edit/{user_id}/confirm', ['uses'=>'UsersController@confirmupdate', 'as'=> 'confirmedit'])->middleware('auth'); //confirmedit
+Route::post('users/edit/{user_id}/confirmed', ['uses'=>'UsersController@confirmupdate', 'as'=> 'confirmeditpost'])->middleware('auth');
 
-Route::get('/products', ['uses'=>'ProductsController@index', 'as'=>'productlist'])->middleware('auth');
+Route::get('/products', ['uses'=>'ProductsController@index', 'as'=>'productlist'])->middleware('auth'); //view
 
-Route::get('/transaction', ['uses'=>'TransactionController@index', 'as'=>'transactionlist'])->middleware('auth');
+Route::get('/transaction', ['uses'=>'TransactionController@index', 'as'=>'transactionlist'])->middleware('auth'); //transaction
 
 
 
