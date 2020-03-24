@@ -5,17 +5,18 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">{{ __('ログイン') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('dologin') }}">
                         @csrf
 
-                        @if ($error = $errors->first('invalid'))
-                            <div class="alert alert-danger">
-                                {{ $error }}
-                            </div>
+                        @if ($error = Session::get('error'))
+                        <div class="alert alert-danger">
+                            {{ $error }}
+                        </div>
                         @endif
+
 
                         @if ($alert = Session::get('alert-success'))
                             <div class="row justify-content-center text-justify">
@@ -26,7 +27,7 @@
                         @endif
 
                         <div class="form-group row">
-                            <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('User name') }}</label>
+                            <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('ユーザID') }}</label>
 
                             <div class="col-md-6">
                                 <input id="user_name" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('username') }}" required autocomplete="email" autofocus>
@@ -40,7 +41,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('パスワード') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
@@ -68,12 +69,12 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
+                                    {{ __('ログイン') }}
                                 </button>
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
+                                        {{ __('パスワードをわすれてしまいましたか？') }}
                                     </a>
                                 @endif
                             </div>

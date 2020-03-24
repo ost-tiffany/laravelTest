@@ -24,7 +24,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ __('Home') }}</title>
+    @yield('title')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -57,32 +57,32 @@
                         <!-- Authentication Links -->
                         @if (!Auth::check()) 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('ログイン') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('サインアップ') }}</a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('userlist') }}">{{ __('User list') }}</a>
+                                <a class="nav-link" href="{{ route('userlist') }}">{{ __('ユーザー') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('productlist') }}">{{ __('Product list') }}</a>
+                                <a class="nav-link" href="{{ route('productlist') }}">{{ __('商品') }}</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <span class="caret">{{ __('My Page') }}</span>
+                                    <span class="caret">{{ __('マイページ') }}</span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('mypage') }}">{{ __("Profile") }}</a>
-                                    <a class="dropdown-item" href="{{ route('transactionlist') }}">{{ __("transaction") }}</a>
+                                    <a class="dropdown-item" href="{{ route('mypage') }}">{{ __("マイアカウント") }}</a>
+                                    <a class="dropdown-item" href="{{ route('transactionlist') }}">{{ __("取引") }}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('ログアウト') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

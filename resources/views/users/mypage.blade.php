@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-<title>My Page</title>
+<title>マイアカウント</title>
 @endsection
 
 @section('content')

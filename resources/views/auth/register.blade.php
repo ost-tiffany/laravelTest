@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-<title>Register</title>
+<title>サインアップ</title>
 @endsection
 
 @section('content')
@@ -9,14 +9,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header">{{ __('サインアップ') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="form-group row">
-                            <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('User name') }}</label>
+                            <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('ユーザID') }}</label>
 
                             <div class="col-md-6">
                                 <input id="user_name" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" autocomplete="user_name" autofocus>
@@ -30,7 +30,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="realname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
+                            <label for="realname" class="col-md-4 col-form-label text-md-right">{{ __('ユーザ名') }}</label>
 
                             <div class="col-md-6">
                                 <input id="realname" type="text" class="form-control @error('realname') is-invalid @enderror" name="realname" value="{{ old('realname') }}" autocomplete="realname" autofocus>
@@ -44,10 +44,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('メールアドレス') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" >
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -58,10 +58,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('パスワード') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -72,10 +72,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="birthday" class="col-md-4 col-form-label text-md-right">{{ __('Birthday') }}</label>
+                            <label for="birthday" class="col-md-4 col-form-label text-md-right">{{ __('生年月日') }}</label>
 
                             <div class="col-md-6">
-                                <input id="birthday" type="date" class="form-control @error('birthday') is-invalid @enderror" name="birthday" value="{{ old('birthday') }}" autocomplete="birthday">
+                                <input id="birthday" type="date" class="form-control @error('birthday') is-invalid @enderror" name="birthday" value="{{ old('birthday') }}" >
 
                                 @error('birthday')
                                     <span class="invalid-feedback" role="alert">
@@ -86,22 +86,22 @@
                         </div>
 
                         <div class="form-group row" name="gender" id="gender">
-                            <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+                            <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('性別') }}</label>
 
                             <div class="form-check">
                                 <input class="form-check-inline " type="radio" name="gender" id="gender" value="1" checked>
-                                <label class="form-check-label" for="male"> Male </label>
+                                <label class="form-check-label" for="male"> 男 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-inline" type="radio" name="gender" id="gender" value="2">
-                                <label class="form-check-label" for="female"> Female </label>
+                                <label class="form-check-label" for="female"> 女 </label>
                             </div>
                         </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
+                                    {{ __('サインアップ') }}
                                 </button>
                             </div>
                         </div>

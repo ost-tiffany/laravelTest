@@ -8,7 +8,6 @@ use App\Providers\RouteServiceProvider;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Users as Users;
-use Illuminate\Support\MessageBag;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -52,13 +51,11 @@ class LoginController extends Controller
     public function dologin(Request $request) {
         if (Auth::attempt(['user_name' => $request->user_name, 'password' => $request->password, 'delete_flag'=>0]))
         {   
-            return redirect('home')->with('alert-success', 'You are now logged in.');
+            return redirect('home')->with('alert-success', 'こんにちは！');
         }
         
         else {
-            $errors = new MessageBag;
-            $errors = new MessageBag(['invalid' => ['Email and/or password invalid.']]); 
-            return redirect('login')->withErrors($errors);
+            return redirect('login')->with('error', 'ユーザIDまたはパスワードが正しくありません。' );
         }
 
     }

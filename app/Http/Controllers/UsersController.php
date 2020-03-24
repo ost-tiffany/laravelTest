@@ -42,22 +42,21 @@ class UsersController extends Controller
         if($request->isMethod('post')) {
             // if post
            
-            $validator = $request->validate([
-            //'user_name' => ['required', 'string', Rule::unique('users','user_name')->ignore($user_id, 'user_id')],
-            'realname' => ['required', 'string'],
-            //'email' => ['required', 'string', 'email'],
-            //'password' => ['required'],
-            //'birthday' => ['required', 'date'],
-            //'gender' => ['required'],
-            ]);
+            $rules = [
+                //'user_name' => ['required', 'string', Rule::unique('users','user_name')->ignore($user_id, 'user_id')],
+                'realname' => ['required', 'string'],
+            ];
            
-            //if(!$request->isDirty("password")) {
-            //if(!$request->isEmpty("password")) {
-            //if(!$pass) {
-            //isEmptyString()
+            $messages = [
+                'realname.required' => config('glossary.register.realname') .'を入力してください' ,
+            ];
 
-            $pass = $request->password;
-            if($pass == '') {
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if($validator->fails()) {
+                return redirect()->route('douseredit', ['user_id'=>$user_id])->withErrors($validator)->withInput();
+            } 
+            if( $request->password == '') {
                 $request->password = $request->passwordold;
             }
            

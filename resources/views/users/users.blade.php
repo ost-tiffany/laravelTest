@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-<title>User page</title>
+<title>ユーザー　ページ</title>
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
                 <p>{{ Session::get('alert') }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
             </div>
         </div>
         </div>
@@ -31,7 +31,7 @@
 </script>
 @endif
 
-    <div class="col-8 offset-md-3 " style="width:900px">
+    <div class="col-8 offset-md-3" style="width:900px">
         <table class="cell-border stripe hover" name="usertable" id="usertable">
             <thead>
                 <tr>
@@ -50,33 +50,37 @@
                         <td><a class="btn btn-success" id="edituser" name="edituser" href="{{ route('useredit',['user_id'=>$user["user_id"]]) }}">編集</a> 
                             &nbsp; 
 
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-danger" onclick="showDeleteModal({{$user['user_id']}});">
-                                削除
-                            </button>
-                            
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">削除確認</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+                            {{-- button auth user --}}
+                            @if (Auth::user()->user_id != $user["user_id"])
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-danger" onclick="showDeleteModal({{$user['user_id']}});">
+                                    削除
+                                </button>
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">削除確認</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                再度削除のをご確認お願いいたします。
+                                            </div>
+                                            <form class="modal-footer" method="post" action="{{route('deleteuser') }}">
+                                                @csrf
+                                                <input type="hidden" name="user_id"  id="modal_user_id" value="">
+                                                <button type="submit" class="btn btn-primary">削除</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                                            </form>
                                         </div>
-                                        <div class="modal-body">
-                                            再度削除のをご確認お願いいたします。
-                                        </div>
-                                        <form class="modal-footer" method="post" action="{{route('deleteuser') }}">
-                                            @csrf
-                                            <input type="hidden" name="user_id"  id="modal_user_id" value="">
-                                            <button type="submit" class="btn btn-primary">削除</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
