@@ -94,6 +94,8 @@ class RegisterController extends Controller
             $users->birthday = $request->birthday;
             $users->gender = $request->gender;
             $users->save();
+
+            return redirect('login')->with("alert-success", " register complete");
         }
     }
 }

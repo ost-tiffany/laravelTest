@@ -15,7 +15,11 @@
     <script type="text/javascript" src={{ asset("bootstrap/js/bootstrap.min.js") }}"></script> --}}
     
      <!-- Scripts bawaan ini -->
-     <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <script src="{{ asset('bootstrap/js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/jquery.dataTables.min.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" ></script>
+     
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -27,6 +31,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href={{asset("bootstrap/css/jquery.dataTables.min.css")}}>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 

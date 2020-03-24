@@ -21,7 +21,7 @@
 
 @extends('layouts.app')
 @section('title')
-<title>Edit User</title>
+<title>編集</title>
 @endsection
 
 @section('content')
@@ -37,7 +37,7 @@
                         @csrf
                         @foreach ($userdata as $item)
                             <div class="form-group row">
-                                <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('User Id') }}</label>
+                                <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('ユーザー　番号') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="user_id" type="hidden" class="form-control" name="user_id" value="{{ $item["user_id"]}}" autocomplete="user_id" autofocus>
@@ -46,16 +46,16 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('User name') }}</label>
+                                <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('ユーザID') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="user_name" type="hidden" class="form-control" name="user_name" value="{{ $item["user_name"]}}" autocomplete="user_name" autofocus>
-                                    <input id="user_name" type="text" class="form-control" name="user_name" value="{{ $item["user_name"]}}" autocomplete="user_name" autofocus disabled>
+                                    <input id="user_name" type="hidden" class="form-control" name="user_name" value="{{ $item["user_name"]}}"  autofocus>
+                                    <input id="user_name" type="text" class="form-control" name="" value="{{ $item["user_name"]}}" autofocus disabled>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="realname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
+                                <label for="realname" class="col-md-4 col-form-label text-md-right">{{ __('ユーザ名') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="realnameold" type="hidden" class="form-control @error('realname') is-invalid @enderror" name="realnameold" value="{{ $item["realname"]}}" autocomplete="realname" autofocus>
@@ -70,7 +70,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('メールアドレス') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="hidden" class="form-control" name="email" value="{{ $item["email"]}}" autocomplete="email">
@@ -79,7 +79,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('パスワード') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="passwordold" type="hidden" value="{{ $item["password"]}}" class="form-control" name="passwordold" autocomplete="new-password">
@@ -88,7 +88,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="birthday" class="col-md-4 col-form-label text-md-right">{{ __('Birthday') }}</label>
+                                <label for="birthday" class="col-md-4 col-form-label text-md-right">{{ __('生年月日') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="birthday" type="hidden" class="form-control" name="birthday" value="{{ $item["birthday"]}}" autocomplete="birthday" >
@@ -97,7 +97,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+                                <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('性別') }}</label>
 
                                 <div class="form-check" value="{{ $item["gender"]}}">
                                     <input class="form-check-inline" type="hidden" name="gender" id="gender" value="1" {{ $item["gender"] == 1 ? "checked" : ""}}>
@@ -117,6 +117,10 @@
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Edit') }}
+                                </button>
+                                &nbsp;
+                                <button type="reset" class="btn btn-danger">
+                                    {{ __('Reset') }}
                                 </button>
                             </div>
                         </div>

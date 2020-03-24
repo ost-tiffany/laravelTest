@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Auth;
 
 
 class UsersController extends Controller
@@ -49,15 +50,26 @@ class UsersController extends Controller
             //'birthday' => ['required', 'date'],
             //'gender' => ['required'],
             ]);
+           
+            //if(!$request->isDirty("password")) {
+            //if(!$request->isEmpty("password")) {
+            //if(!$pass) {
+            //isEmptyString()
 
-            if(collect([$request->password])->isEmpty()) {
+            $pass = $request->password;
+            if($pass == '') {
                 $request->password = $request->passwordold;
             }
-            
-            
-            $data = $request->all();
+           
+            $data["realname"] = $request->realname;
+            $data["user_name"] = $request->user_name;
+            $data["email"] = $request->email;
+            $data["birthday"] = $request->birthday;
+            $data["password"] = $request->password;
+            $data["gender"] = $request->gender;
+            //echo $data["user_name"];
             //return redirect()->route('confirmedit', ['user_id' => $user_id])->with('usernewdata' ,$data);
-            return redirect()->route('confirmedit', ['user_id' => $user_id, 'usernewdata' => $data]);
+            return view('users/confirmationedit', ['user_id'=>$user_id, 'usernewdata' => $data]);
         }
         
     }
@@ -66,21 +78,52 @@ class UsersController extends Controller
     public function confirmupdate(Request $request, $user_id) {
     //post
         //confimation blade
-        if ($request->isMethod('get')) 
-        {
-            //show confimation blade
-            $newdata = $request->all();
-            return view('users/confirmationedit', ['user_id'=>$user_id, 'usernewdata'=>$newdata]);
-        } 
+        // if ($request->isMethod('get')) 
+        // {
+        //     //show confimation blade
+        //     //$newdata = $request->all();
+        //     //return view('users/confirmationedit');
+        // } 
         
         if($request->isMethod('post')) {
             //save database only
-            // $newdata = Users::where('user_id', $user_id)
-            // ->update(['realname' => $request->realname,
-            //             'password' => Hash::make($request->password)]);
             
-            return redirect()->route('userlist')->with('alert-success', 'Data has been changed.');
+            $Userer = Users::find($user_id);
+            $Userer->realname = $request->realname;
+            if($request->password != $Userer->password) {
+                // echo $request->password;
+                //$User = Users::find($user_id);
+
+                $Userer->password =  Hash::make($request->password);
+
+                // $newdata = Users::where('user_id', $user_id)
+                // ->update([ 'realname' => $request->realname,                    
+                //             // 'password' => Hash::make($request->password)
+                //             ]);
+
+            } 
+            $Userer->save();
+            return redirect()->route('userlist')->with('alert', '編集完了!')->with('type', '編集');
+            //return redirect()->route('userlist')->with('alert-success', 'Data has been changed.');
         }
     }
 
+    public function userdelete(Request $request) {
+
+        $Userer = Users::find($request->user_id);
+
+        if($request->user_id == auth::user()->user_id ) {
+            // Auth::logout();
+            // return redirect('/login');
+            return redirect()->route('userlist')->with('alert', '削除できません!')->with('type', '削除');
+        } else {
+            $Userer->delete_flag = 1;
+            $Userer->save();
+            return redirect()->route('userlist')->with('alert', '削除完了!')->with('type', '削除');
+
+        }
+
+        // echo $request->user_id;
+        // echo auth::user()->user_id;
+    }
 }

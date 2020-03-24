@@ -17,6 +17,14 @@
                             </div>
                         @endif
 
+                        @if ($alert = Session::get('alert-success'))
+                            <div class="row justify-content-center text-justify">
+                                <div class="alert alert-warning">
+                                    {{ $alert }}
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="form-group row">
                             <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('User name') }}</label>
 
