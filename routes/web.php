@@ -23,15 +23,21 @@ Route::post('/register', ['uses'=>'Auth\RegisterController@create', 'as'=>'regis
 Route::get('/users', ['uses'=>'UsersController@index', 'as'=>'userlist'])->middleware('auth'); //view user
 Route::get('users/edit/{user_id}', ['uses'=>'UsersController@update', 'as'=>'useredit'])->middleware('auth'); //edit
 Route::post('users/edit/{user_id}', ['uses'=>'UsersController@update', 'as'=>'douseredit'])->middleware('auth');
-Route::get('users/edit/{user_id}/confirm', ['uses'=>'UsersController@confirmupdate', 'as'=> 'confirmedit'])->middleware('auth'); //confirmedit
-Route::post('users/edit/{user_id}/confirmed', ['uses'=>'UsersController@confirmupdate', 'as'=> 'confirmeditpost'])->middleware('auth');
+//Route::get('users/edit/{user_id}/confirm', ['uses'=>'UsersController@confirmupdate', 'as'=> 'confirmedit'])->middleware('auth'); 
+Route::post('users/edit/{user_id}/confirmed', ['uses'=>'UsersController@confirmupdate', 'as'=> 'confirmeditpost'])->middleware('auth'); //confirmedit
 Route::post('users/delete', ['uses'=>'UsersController@userdelete', 'as'=> 'deleteuser'])->middleware('auth'); //delete
 
-Route::get('/products', ['uses'=>'ProductsController@index', 'as'=>'productlist'])->middleware('auth'); //view product
+Route::get('/products', ['uses'=>'ProductsController@index', 'as'=>'productlist'])->middleware('auth'); //view product 一覧
 Route::get('products/wood', ['uses'=>'ProductsController@wood', 'as'=>'woodlist'])->middleware('auth'); //woodlist
 Route::get('products/other', ['uses'=>'ProductsController@other', 'as'=>'otherlist'])->middleware('auth'); //otherlist
 
-Route::post('/addproduct', ['uses'=>'ProductsController@add', 'as'=>'addproduct'])->middleware('auth');//add product
+
+
+Route::get('/products/add', ['uses'=>'ProductsController@addproduct', 'as'=>'productadd'])->middleware('auth'); //view add poduct
+Route::post('/products/add', ['uses'=>'ProductsController@addproduct', 'as'=>'productaddpost'])->middleware('auth'); //add product
+Route::post('/products/add/confirm', ['uses'=>'ProductsController@confirmproduct', 'as'=>'productaddconfirm'])->middleware('auth'); //confirm
+
+
 
 Route::get('/transaction', ['uses'=>'TransactionController@index', 'as'=>'transactionlist'])->middleware('auth'); //transaction
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>商品</title>
+    <title>商品リスト</title>
 
     <style>
         .full-height {
@@ -50,33 +50,26 @@
 
 @section('content')
 
-    <div class="content title m-b-md">
-        <div class="links">  
-            <a>></a> 
-            <a href="{{ route('woodlist')}}">木造</a> 
-            &nbsp;
-            <a href="{{ route('otherlist') }}">雑貨</a>
-        </div>
+<div class="content title m-b-md">
+    <div class="links">  
+        <a>></a> 
+        <a href="{{ route('woodlist')}}">木造</a> 
+        &nbsp;
+        <a href="{{ route('otherlist') }}">雑貨</a>
     </div>
-
-    <div>
-        @if (Session::get('alert-success'))
-            <div class="row justify-content-center text-justify">
-                <div class="alert alert-success">
-                    {{ Session::get('alert-success') }}
+</div> 
+    {{-- @php var_dump($productslist) @endphp --}}
+    
+        <div>
+            @if (Session::get('alert'))
+                <div class="row justify-content-center text-justify">
+                    <div class="alert alert-success">
+                        {{ Session::get('alert') }}
+                    </div>
                 </div>
-            </div>
-        @endif
-    <div>
-
-    <div>
-        @if (Session::get('alert-success'))
-            <div class="row justify-content-center text-justify">
-                <div class="alert alert-success">
-                    {{ Session::get('alert-success') }}
-                </div>
-            </div>
-        @endif
-    <div>
+            @endif
+        <div>
+  
+{{-- update table --}}
 
 @endsection

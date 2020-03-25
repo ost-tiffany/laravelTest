@@ -17,10 +17,10 @@ class Products extends Model
     //      return $this->select()->get()->toArray();
     //  }
 
-     public function getOtherList() {
-        return $this->select()
-                    ->where('product_type', 2)
-                    ->get()
-                    ->toArray();
-    }
+    // public function getOtherList() {
+    //     return $this->select()
+    //                 ->where('product_type', 2)
+    //                 ->get()
+    //                 ->toArray();
+    // }
 }

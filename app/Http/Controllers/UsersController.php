@@ -74,19 +74,8 @@ class UsersController extends Controller
     }
 
     //confirmation abis di masukin usersnya
-    public function confirmupdate(Request $request, $user_id) {
-    //post
-        //confimation blade
-        // if ($request->isMethod('get')) 
-        // {
-        //     //show confimation blade
-        //     //$newdata = $request->all();
-        //     //return view('users/confirmationedit');
-        // } 
-        
-        if($request->isMethod('post')) {
-            //save database only
-            
+    public function confirmupdate(Request $request, $user_id) {       
+         
             $Userer = Users::find($user_id);
             $Userer->realname = $request->realname;
             if($request->password != $Userer->password) {
@@ -104,7 +93,6 @@ class UsersController extends Controller
             $Userer->save();
             return redirect()->route('userlist')->with('alert', '編集完了!')->with('type', '編集');
             //return redirect()->route('userlist')->with('alert-success', 'Data has been changed.');
-        }
     }
 
     public function userdelete(Request $request) {
