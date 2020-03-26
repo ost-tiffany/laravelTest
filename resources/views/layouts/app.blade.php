@@ -74,6 +74,9 @@
                             </li>
                                 <a class="nav-link" href="{{ route('productadd') }}">{{ __('商品追加') }}</a>
                             </li>
+                            </li>
+                                <a class="nav-link" href="{{ route('makeorder') }}">{{ __('取引') }}</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <span class="caret">{{ __('マイページ') }}</span>
@@ -81,7 +84,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('mypage') }}">{{ __("マイアカウント") }}</a>
-                                    <a class="dropdown-item" href="{{ route('transactionlist') }}">{{ __("取引") }}</a>
+                                    <a class="dropdown-item" href="{{ route('transactionlist') }}">{{ __("履歴取引") }}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

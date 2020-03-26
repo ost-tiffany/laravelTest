@@ -99,16 +99,16 @@ class UsersController extends Controller
 
         $Userer = Users::find($request->user_id);
 
-        if($request->user_id == auth::user()->user_id ) {
+        //if($request->user_id == auth::user()->user_id ) {
             // Auth::logout();
             // return redirect('/login');
-            return redirect()->route('userlist')->with('alert', '削除できません!')->with('type', '削除');
-        } else {
+        //    return redirect()->route('userlist')->with('alert', '削除できません!')->with('type', '削除');
+        //} else {
             $Userer->delete_flag = 1;
             $Userer->save();
             return redirect()->route('userlist')->with('alert', '削除完了!')->with('type', '削除');
 
-        }
+        //}
 
         // echo $request->user_id;
         // echo auth::user()->user_id;

@@ -67,16 +67,29 @@
                 </div>
             </div>
         @endif
-    <div>
+    </div>
 
-    <div>
-        @if (Session::get('alert-success'))
-            <div class="row justify-content-center text-justify">
-                <div class="alert alert-success">
-                    {{ Session::get('alert-success') }}
-                </div>
-            </div>
-        @endif
-    <div>
+    <hr style="width: 1000px; margin-top: 60px">
+    {{-- latest 5 --}}
+    <div>	
+        <div class="content title m-b-md">
+            <h5> <strong> 最新商品 </strong> </h5>
+        </div>
+		
+        <div class="container" style="width:1000px;" name="latest" id="latest">	
+			<div  class="row justify-content-md-center" >
+                @foreach ($productlist as $product)
+				<div class="col-md-auto" style="margin-bottom:30px;　text-align:center;">
+                    <a href="/upload/{{ $product["product_id"] }}/{{ $product["product_image"] }}">
+                    <img src="/upload/{{ $product["product_id"] }}/{{ $product["product_image"] }}" style="width:150px; height:150px; object-fit: cover;" class="img-fluid rounded-circle">
+                    </a>
+                    <p>{{$product['product_name']}}　<br>
+                    by: <strong>{{$product['created_by_user_name']}}</strong><br></p>								
+                </div>		
+                @endforeach	
+			</div>
+		</div>
+      
+    </div>
 
 @endsection

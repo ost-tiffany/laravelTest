@@ -14,11 +14,11 @@
                     <div class="card-header">{{ __('商品追加') }}</div>
         
                     <div class="card-body">
-                    <form action="{{route('productaddconfirm')}}" method="POST" enctype="multipart/form-data">
+                    <form  method="POST" action="{{route('productaddconfirm')}}">
                             @csrf
                             <div class="form-group">
                                 <label for="product_name">商品名</label>
-                                <input  name="product_name" type="hidden" value="{{$newproducts['product_name']}}">
+                                <input type="hidden" name="product_name" value="{{$newproducts['product_name']}}">
                                 <input type="text" class="form-control" value="{{$newproducts['product_name']}}" disabled>
                             </div>
                     
@@ -35,14 +35,16 @@
                     
                             <div class="form-group">
                                 <div style="width:400px;">
-                                    <input type="hidden" id="product_image" name="product_image" class="form-control" value={{$newproducts['product_image']}}>
-                                    <img class="img-responsive img-rounded" src="{{$newproducts['product_image']}}">
+                                    <label>登録画像 :</label>
+                                    <input type="hidden" id="product_image_path" name="product_image_path" class="form-control" value={{$newproducts['product_image']}}>
+                                    <input type="hidden" id="product_image_name" name="product_image_name" class="form-control" value={{$newproducts['product_image_name']}}>
+                                    <img class="img-responsive img-rounded img-thumbnail" src="{{$newproducts['product_image']}}">
                                 </div>
                             </div>
                     
                             <button type="submit" class="btn btn-secondary btn-sm">追加</button>
                             &nbsp;
-                            <a href="{{url()->previous()}}" class="btn btn-danger">{{ __('キャンセル') }}</a>
+                            <a href="{{url()->previous()}}" class="btn btn-danger btn-sm">{{ __('キャンセル') }}</a>
                         </form>
                     </div>
 

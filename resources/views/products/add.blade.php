@@ -17,7 +17,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="product_name">商品名</label>
-                                <input type="text" class="form-control @error('product_name') is-invalid @enderror" id="product_name" name="product_name">
+                            <input type="text" class="form-control @error('product_name') is-invalid @enderror" id="product_name" name="product_name" value="{{old('product_name')}}">
 
                                 @error('product_name')
                                     <span class="invalid-feedback" role="alert">
