@@ -74,8 +74,14 @@ class UsersController extends Controller
     }
 
     //confirmation abis di masukin usersnya
-    public function confirmupdate(Request $request, $user_id) {       
-         
+    public function confirmupdate(Request $request, $user_id) {    
+        if ($request->isMethod('get')) 
+        {
+            return view('users/confirmationedit', ['user_id'=>$user_id, 'usernewdata' => $data]); 
+        } 
+        
+        if ($request->isMethod('post')) 
+        {
             $Userer = Users::find($user_id);
             $Userer->realname = $request->realname;
             if($request->password != $Userer->password) {
@@ -93,6 +99,8 @@ class UsersController extends Controller
             $Userer->save();
             return redirect()->route('userlist')->with('alert', '編集完了!')->with('type', '編集');
             //return redirect()->route('userlist')->with('alert-success', 'Data has been changed.');
+              
+        }  
     }
 
     public function userdelete(Request $request) {

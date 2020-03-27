@@ -31,17 +31,16 @@
                                 <label for="product_type">商品類</label>
                                 <select id="product_type" name="product_type"  class="form-control @error('product_type') is-invalid @enderror" >
                                     <option name="product_type" value="">選択肢て下さい</option>
-                                    <option name="product_type" value="1">木</option>
-                                    <option name="product_type" value="2">他</option>
+                                    @foreach ($types as $type)
+                                        <option name="product_type" value="{{$type['type_id']}}">{{$type['type_name']}}</option>
+                                    @endforeach   
                                 </select>
-
                                 @error('product_type')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
+                                @enderror                  
                             </div>
-                    
                             <div class="form-group">
                                 <div>
                                     <input type="file" id="product_image" name="product_image"  class="form-control @error('product_image') is-invalid @enderror">

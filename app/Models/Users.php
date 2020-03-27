@@ -20,3 +20,8 @@ class Users extends Model
                     ->toArray();
     }
 }
+
+// class Users extends Eloquent {
+
+   
+// }

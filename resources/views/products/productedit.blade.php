@@ -35,11 +35,14 @@
                     
                             <div class="form-group">
                                 <label for="product_type">商品類</label>
-                                <select id="product_type" name="product_type"  class="form-control @error('product_type') is-invalid @enderror" value="{{$productdata['product_type']}}">
+                                <select id="product_type" name="product_type"  class="form-control @error('product_type') is-invalid @enderror" value="">
                                     <option name="product_type" value="">選択して下さい</option>
-                                    <option name="product_type" value="1" {{$productdata['product_type'] == 1 ? "selected" : ""}}>木</option>
-                                    <option name="product_type" value="2" {{$productdata['product_type'] == 2 ? "selected" : ""}}>他</option>
+                                    @foreach ($types as $type)
+                                        <option name="product_type" value="{{$type['type_id']}}" {{$productdata['product_type'] == $type['type_id'] ? "selected" : ""}}>{{$type['type_name']}}</option>
+                                    @endforeach 
                                 </select>
+
+                                
 
                                 @error('product_type')
                                         <span class="invalid-feedback" role="alert">

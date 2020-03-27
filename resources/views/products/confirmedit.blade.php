@@ -29,10 +29,11 @@
                             <div class="form-group">
                                 <input type="hidden" name="product_type" id="product_type" value="{{$productdata['product_type']}}">
                                 <label for="product_type">商品類</label>
-                                <select id="product_type" name="product_type"  class="form-control" value="{{$productdata['product_type']}}" disabled>
+                                <select id="product_type" name="product_type"  class="form-control" value="" disabled>
                                     <option name="product_type" value="">選択してください</option>
-                                    <option name="product_type" value="1" {{$productdata['product_type'] == 1 ? "selected" : ""}}>木</option>
-                                    <option name="product_type" value="2" {{$productdata['product_type'] == 2 ? "selected" : ""}}>他</option>
+                                    @foreach ($types as $type)
+                                        <option name="product_type" value="{{$type['type_id']}}" {{$productdata['product_type'] == $type['type_id'] ? "selected" : ""}}>{{$type['type_name']}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                     

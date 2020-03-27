@@ -11,6 +11,11 @@ class transactionController extends Controller
         return view('transactions/mytransaction');
     }
 
+    public function show($transaction_id) {
+
+        return view('transactions/viewtransaction');
+    }
+
     public function make() {
         return view('transactions/addtransaction');
     }

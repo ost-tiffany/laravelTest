@@ -53,9 +53,10 @@
     <div class="content title m-b-md">
         <div class="links">  
             <a>></a> 
-            <a href="{{ route('woodlist')}}">木造</a> 
+            @foreach ($types as $type)
+            <a href="{{ route('list',['type_id'=>$type['type_id']])}}"> {{$type["type_name"]}} </a> 
             &nbsp;
-            <a href="{{ route('otherlist') }}">雑貨</a>
+            @endforeach
         </div>
     </div>
 

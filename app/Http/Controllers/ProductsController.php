@@ -10,42 +10,49 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Products as products;
+use App\Models\Types as types;
 use Auth;
 
 class ProductsController extends Controller
 {
     //panggil class , aturnya di web
     public function index(Request $request , $product_type=null) {
+        //products latest
         $products = Products::where('delete_flag', 0)->latest()->limit(10)->get()->toArray();
-       
-        return view('products/products' , ['productlist'=> $products]);
+
+       //product type
+       $types = new Types();
+       $data = $types->getTypeList();
+
+        return view('products/products' , ['productlist'=> $products , 'types'=>$data]);
     }
 
-    public function wood(Request $request) {
-        $productslist = Products::where('product_type', 1)->where('delete_flag', 0)->get()->toArray();
-        //return $productslist;
-        //->with(['productslist'=>$productslist]);
+    public function list(Request $request, $type_id) {
 
-        //return redirect()->route("woodlist")->with('type', '木造')->with(['productslist'=>$productslist]);
-        return view('products/productlist' , ['productslist'=>$productslist])->with('alert', '木造');
+        $productslist = Products::where('product_type', $type_id)->where('delete_flag', 0)->get()->toArray();
+
+        //product type
+       $types = new Types();
+       $data = $types->getTypeList();
+
+        return view('products/productlist' , ['productslist'=>$productslist, 'types'=>$data]);
     }
-
-    public function other(Request $request) {
-
-        $productslist = Products::where('product_type', 2)->where('delete_flag', 0)->get()->toArray();
-        // $products = new Products();
-        // $data = $products->getOtherList();
-
-        //return redirect()->back()->with('alert', '材料');
-        return view('products/productlist', ['productslist'=> $productslist ])->with('alert', '材料');;
-      }
 
     public function addproduct(Request $request) {
         if ($request->isMethod('get')) 
         {
-            return view('products/add');
+            //product-type adalah tabel type
+            //product type
+            $types = new Types();
+            $data = $types->getTypeList();
+            return view('products/add', ['types'=>$data]);
         } 
         else if ($request->isMethod('post')) {
+
+            //product-type adalah tabel type
+            //product type
+            $types = new Types();
+            $datatabel = $types->getTypeList();
 
             $rules = [
                 'product_type' => ['required','not_in:0'],
@@ -68,20 +75,20 @@ class ProductsController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             } 
             else {
-            //   var_dump($request->product_image);
-            //   var_dump($request->HasFile('product_image'));
-            //   var_dump($request->file('product_image'));
-    
-            //   echo $request->file('product_image');
-    
-            //   var_dump( $request->product_image);
-            //   var_dump ($request->product_image->path());
-            //   $request->product_image('file')->move(base_path('app/temp'));
-            //   $extension = explode('.' , request()->product_image);
-            //   $extension = end($extension);
-            //   echo $extension;
-    
-            //  echo request()->product_name.'.'.request()->product_image->getClientOriginalExtension();      
+                //   var_dump($request->product_image);
+                //   var_dump($request->HasFile('product_image'));
+                //   var_dump($request->file('product_image'));
+        
+                //   echo $request->file('product_image');
+        
+                //   var_dump( $request->product_image);
+                //   var_dump ($request->product_image->path());
+                //   $request->product_image('file')->move(base_path('app/temp'));
+                //   $extension = explode('.' , request()->product_image);
+                //   $extension = end($extension);
+                //   echo $extension;
+        
+                //  echo request()->product_name.'.'.request()->product_image->getClientOriginalExtension();      
 
                 
                 $imageName = str_replace(' ','', $request->product_name.'.'.$request->product_image->getClientOriginalExtension());
@@ -96,7 +103,7 @@ class ProductsController extends Controller
                 $data["product_image_name"] = $imageName;
                 $data["product_type"] = $request->product_type;
                 
-                return view('products/confirmadd' , ['newproducts' => $data]);
+                return view('products/confirmadd' , ['newproducts' => $data, 'types'=>$datatabel]);
             }
 
             //dd($request->all());
@@ -107,38 +114,57 @@ class ProductsController extends Controller
 
     public function confirmproduct(Request $request) {
 
-        $products = new Products();
-        $products->product_name = $request->product_name;
-        $products->product_type = $request->product_type;
-        $products->product_image = $request->product_image_name;
-        $products->created_by_user_id = Auth::User()->user_id;
-        $products->created_by_user_name = Auth::user()->user_name;
-        $products->save();
+        //product-type adalah tabel type
+        //product type
+        $types = new Types();
+        $data = $types->getTypeList();
 
-        if($products->save()) {
-            $product_id = $products->product_id;
-            //tentuin path2nya
-            // \\keknya nunjukin bkin baru juga kali ya?
-            $oldpath = public_path('upload\temp\\'. $products->product_image); //yang lama
-            $path =  public_path('upload\\'.$product_id.'\\'. $products->product_image); //yang baru
-            $folder =  public_path('upload\\'.$product_id); //demi bkin folder
+        if ($request->isMethod('get')) 
+        { 
+            return view('products/confirmadd' , ['newproducts' => $data, 'types'=>$data]);
+        } 
+        else if ($request->isMethod('post')) {
 
-            if (!file_exists($folder)) {
-                mkdir($folder, 0777, true);
+            $products = new Products();
+            $products->product_name = $request->product_name;
+            $products->product_type = $request->product_type;
+            $products->product_image = $request->product_image_name;
+            $products->created_by_user_id = Auth::User()->user_id;
+            $products->created_by_user_name = Auth::user()->user_name;
+            $products->save();
+
+            if($products->save()) {
+                $product_id = $products->product_id;
+                //tentuin path2nya
+                // \\keknya nunjukin bkin baru juga kali ya?
+                $oldpath = public_path('upload\temp\\'. $products->product_image); //yang lama
+                $path =  public_path('upload\\'.$product_id.'\\'. $products->product_image); //yang baru
+                $folder =  public_path('upload\\'.$product_id); //demi bkin folder
+
+                if (!file_exists($folder)) {
+                    mkdir($folder, 0777, true);
+                }
+                //move file dari old path ke path baru
+                rename($oldpath, $path);
+                // echo $oldpath;
+                // echo $path;
+                
+                return redirect()->route("productlist")->with('alert-success', '追加しました');
             }
-            //move file dari old path ke path baru
-            rename($oldpath, $path);
-            // echo $oldpath;
-            // echo $path;
-            
-            return redirect()->route("productlist")->with('alert-success', '追加しました');
         }
     }
 
     public function productedit(Request $request, $product_id) {
+
+        //product-type adalah tabel type
+        //product type
+        $types = new Types();
+        $data = $types->getTypeList();
+
         if($request->isMethod('get')) {
             $product = Products::where('product_id', $product_id)->get()->toArray();
-            return view('products/productedit', ['product_id'=>$product_id, 'productsdata'=>$product]);
+
+            return view('products/productedit', ['product_id'=>$product_id, 'productsdata'=>$product, 'types'=>$data]);
         }
 
         if($request->isMethod('post')) {
@@ -172,6 +198,7 @@ class ProductsController extends Controller
                     // echo $pathimage;   
                 } 
                 else {
+
                     $imageName = str_replace(' ','', $request->product_name.'.'.$request->product_image->getClientOriginalExtension());
                     //echo $imageName;
                     $temppath = public_path('upload\temp');
@@ -186,56 +213,66 @@ class ProductsController extends Controller
                 $newproduct["product_image"] = $pathimage;
                 $newproduct["product_image_name_old"] = $request->product_image_old;
 
-
-           return view('products/confirmedit', ['product_id'=>$product_id, 'productdata'=>$newproduct]);
+           return view('products/confirmedit', ['product_id'=>$product_id, 'productdata'=>$newproduct, 'types'=>$data]);
             }
         }
     }
 
     public function producteditconfirm(Request $request, $product_id) {
 
-        $product = Products::find($product_id);
-        $product->product_name = $request->product_name;
-        $product->product_type = $request->product_type;
-        $product->product_image = $request->product_image_name;
-        $product->updated_by_user_id = Auth::User()->user_id;
-        $product->updated_by_user_name = Auth::user()->user_name;
-        $product->save();
+        if ($request->isMethod('get')) 
+        {
+            //product-type adalah tabel type
+            //product type
+            $types = new Types();
+            $data = $types->getTypeList();
 
-         if($product->save()) {
-            $path = $request->product_image;
-            $name = $request->product_image_name;
+            return view('products/confirmedit', ['product_id'=>$product_id, 'productdata'=>$newproduct, 'types'=>$data]);
 
-            if($path != "/upload"."/".$product_id."/".$name ) {
+        } 
+        else if ($request->isMethod('post')) {
+
+            $product = Products::find($product_id);
+            $product->product_name = $request->product_name;
+            $product->product_type = $request->product_type;
+            $product->product_image = $request->product_image_name;
+            $product->updated_by_user_id = Auth::User()->user_id;
+            $product->updated_by_user_name = Auth::user()->user_name;
+            $product->save();
+
+            if($product->save()) {
+                $path = $request->product_image;
+                $name = $request->product_image_name;
+
+                if($path != "/upload"."/".$product_id."/".$name ) {
+                    
+                    //tentuin path2nya
+                    // \\keknya nunjukin bkin baru juga kali ya?
+                    $oldpath = public_path('upload\temp\\'. $product->product_image); //yang lama
+                    $path =  public_path('upload\\'.$product_id.'\\'. $product->product_image); //yang baru
+                    $folder =  public_path('upload\\'.$product_id); //demi bkin folder
+
+                    if (!file_exists($folder)) {
+                        mkdir($folder, 0777, true);
+                    }
+                    //move file dari old path ke path baru
+                    rename($oldpath, $path);
+                    // echo $oldpath;
+                    // echo $path;
+
+                    //foto lama masuk delete folder
+                    $imageOld = $request->product_image_name_old;
+                    $oldpath2 = public_path('upload\\'.$product_id.'\\'. $imageOld); //image yang diganti
+                    $delete = public_path('upload\delete');
                 
-                //tentuin path2nya
-                // \\keknya nunjukin bkin baru juga kali ya?
-                $oldpath = public_path('upload\temp\\'. $product->product_image); //yang lama
-                $path =  public_path('upload\\'.$product_id.'\\'. $product->product_image); //yang baru
-                $folder =  public_path('upload\\'.$product_id); //demi bkin folder
-
-                if (!file_exists($folder)) {
-                    mkdir($folder, 0777, true);
+                    if (!file_exists($delete)) {
+                        mkdir($delete, 0777, true);
+                    }
+                    rename($oldpath2 , $delete.'\\'.$imageOld);        
                 }
-                 //move file dari old path ke path baru
-                rename($oldpath, $path);
-                // echo $oldpath;
-                // echo $path;
 
-                //foto lama masuk delete folder
-                $imageOld = $request->product_image_name_old;
-                $oldpath2 = public_path('upload\\'.$product_id.'\\'. $imageOld); //image yang diganti
-                $delete = public_path('upload\delete');
-            
-                if (!file_exists($delete)) {
-                    mkdir($delete, 0777, true);
-                }
-                rename($oldpath2 , $delete.'\\'.$imageOld);
-
-                
+            return redirect()->route("productlist")->with('alert-success', '編集しました！');
             }
-
-        return redirect()->route("productlist")->with('alert-success', '編集しました！');
         }
     }
 
@@ -248,12 +285,23 @@ class ProductsController extends Controller
         $products->updated_by_user_id = Auth::User()->user_id;
         $products->updated_by_user_name = Auth::user()->user_name;
         $products->save();
+
+         //foto lama masuk delete folder
+         $product_id = $request->product_id;
+         $imageOld = $products->product_image;
+         $oldpath2 = public_path('upload\\'.$product_id.'\\'. $imageOld); //image yang diganti
+         $delete = public_path('upload\delete');
+     
+         if (!file_exists($delete)) {
+             mkdir($delete, 0777, true);
+         }
+        rename($oldpath2 , $delete.'\\'.$imageOld);
         
         if($products->product_type == 1) {      
-            return redirect()->route('woodlist')->with('alert', '削除完了!')->with('type', '削除');
+            return redirect()->back()->with('alert', '削除完了!')->with('type', '削除');
         }
         else { 
-            return redirect()->route('otherlist')->with('alert', '削除完了!')->with('type', '削除');
+            return redirect()->back()->with('alert', '削除完了!')->with('type', '削除');
         }
     }
 

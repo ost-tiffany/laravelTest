@@ -79,11 +79,12 @@
     <div class="content title m-b-md">
         <div class="links">  
             <a>></a> 
-            <a href="{{ route('woodlist')}}">木造</a> 
+            @foreach ($types as $type)
+            <a href="{{ route('list',['type_id'=>$type['type_id']])}}">{{$type["type_name"]}}</a> 
             &nbsp;
-            <a href="{{ route('otherlist') }}">雑貨</a>
+            @endforeach
         </div>
-    </div> 
+    </div>
 
     <div class="col-8 offset-md-3" style="width:900px">
         <table class="cell-border stripe hover" name="usertable" id="usertable">
@@ -105,7 +106,8 @@
                         <td>{{ $product["product_name"] }}</td>
                         <td> <a href="/upload/{{ $product["product_id"] }}/{{ $product["product_image"] }}"> 
                                 <img class="img-responsive img-rounded img-thumbnail" style="width: 150px;" src="/upload/{{ $product["product_id"] }}/{{ $product["product_image"] }}" alt="">
-                            </a></td>
+                            </a>
+                        </td>
                         <td><a class="btn btn-success" id="editimage" name="editimage" href="{{ route('productedit',['product_id'=>$product["product_id"]]) }}">編集</a> 
                             &nbsp; 
                             <!-- Button trigger modal -->
@@ -115,7 +117,7 @@
                                 
                             <!-- Modal -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLongTitle">削除確認</h5>

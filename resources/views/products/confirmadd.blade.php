@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-
     {{-- upload --}}
     <div class="container">
         <div class="row justify-content-center">
@@ -26,10 +25,11 @@
                                 <label for="product_type">商品類</label>
                                 <input type="hidden" name="product_type" value="{{$newproducts['product_type']}}">
                             
-                                <select class="form-control" value="{{$newproducts['product_type']}}" disabled>
+                                <select class="form-control" value="" disabled>
                                     <option value="">選択肢て下さい</option>
-                                    <option value="1" {{$newproducts['product_type'] == 1 ? "selected" : "" }}>木</option>
-                                    <option value="2" {{$newproducts['product_type'] == 2 ? "selected" : "" }}>他</option>
+                                    @foreach ($types as $type)
+                                        <option name="product_type" value="{{$type['type_id']}}" {{$newproducts['product_type'] == $type['type_id'] ? "selected" : ""}}>{{$type['type_name']}}</option>
+                                    @endforeach   
                                 </select>
                             </div>
                     
