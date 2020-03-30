@@ -27,8 +27,7 @@ Route::get('users/edit/{user_id}/confirm', ['uses'=>'UsersController@confirmupda
 Route::post('users/edit/{user_id}/confirmed', ['uses'=>'UsersController@confirmupdate', 'as'=> 'confirmeditpost'])->middleware('auth'); //confirmedit
 Route::post('users/delete', ['uses'=>'UsersController@userdelete', 'as'=> 'deleteuser'])->middleware('auth'); //delete
 
-Route::get('/products', ['uses'=>'ProductsController@index', 'as'=>'productlist'])->middleware('auth'); //view product
-Route::get('products/type/{type_id}', ['uses'=>'ProductsController@list', 'as'=>'list'])->middleware('auth'); //productlist
+Route::get('/products/item/{type_id?}', ['uses'=>'ProductsController@index', 'as'=>'productlist'])->middleware('auth'); //view product
 
 Route::get('/products/add', ['uses'=>'ProductsController@addproduct', 'as'=>'productadd'])->middleware('auth'); //view add product
 Route::post('/products/add', ['uses'=>'ProductsController@addproduct', 'as'=>'productaddpost'])->middleware('auth'); //add product
@@ -46,7 +45,9 @@ Route::post('/products/delete', ['uses'=>'ProductsController@productdelete', 'as
 Route::get('/transaction', ['uses'=>'TransactionController@index', 'as'=>'transactionlist'])->middleware('auth'); //mytransaction
 Route::get('/transaction/detail/{transaction_id}', ['uses'=>'TransactionController@show', 'as'=>'transactiondetailview'])->middleware('auth'); //mytransaction
 Route::get('/transaction/form',['uses'=>'TransactionController@make', 'as'=>'makeorder'])->middleware('auth'); //makeorder
-
+Route::post('/transaction/form',['uses'=>'TransactionController@make', 'as'=>'makeorderpost'])->middleware('auth');
+Route::get('/transaction/form/confirm',['uses'=>'TransactionController@makesure', 'as'=>'ordersure'])->middleware('auth');
+Route::post('/transaction/form/confirmed',['uses'=>'TransactionController@makesure', 'as'=>'ordersureconfirm'])->middleware('auth');
 
 
 // Auth::routes();

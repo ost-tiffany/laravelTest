@@ -23,4 +23,16 @@ class Products extends Model
     //                 ->get()
     //                 ->toArray();
     // }
+
+    public function getProductNameTransaction() {
+        return $this->select()->where('delete_flag', 0)->get()->toArray();
+    }
+
+    public function getProductlist($type_id = null) {
+        if($type_id != '') {
+            return $this->join('types', 'products.product_type', '=', 'types.type_id')->where('product_type', $type_id)->where('delete_flag', 0)->get()->toArray();
+        } else {
+            return $this->join('types', 'products.product_type', '=', 'types.type_id')->where('delete_flag', 0)->latest()->limit(10)->get()->toArray();
+        }
+    }
 }

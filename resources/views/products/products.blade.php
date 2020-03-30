@@ -54,7 +54,7 @@
         <div class="links">  
             <a>></a> 
             @foreach ($types as $type)
-            <a href="{{ route('list',['type_id'=>$type['type_id']])}}"> {{$type["type_name"]}} </a> 
+            <a href="{{ route('productlist',['type_id'=>$type['type_id']])}}"> {{$type["type_name"]}} </a> 
             &nbsp;
             @endforeach
         </div>
@@ -79,12 +79,13 @@
 		
         <div class="container" style="width:1000px;" name="latest" id="latest">	
 			<div  class="row justify-content-md-center" >
-                @foreach ($productlist as $product)
+                @foreach ($productslist as $product)
 				<div class="col-md-auto" style="margin-bottom:30px;　text-align:center;">
                     <a href="/upload/{{ $product["product_id"] }}/{{ $product["product_image"] }}">
                     <img src="/upload/{{ $product["product_id"] }}/{{ $product["product_image"] }}" style="width:150px; height:150px; object-fit: cover;" class="img-fluid rounded-circle">
                     </a>
-                    <p>{{$product['product_name']}}　<br>
+                    <p>{{$product['type_name']}}</p>   
+                    <p>{{$product['product_name']}}<br>
                     by: <strong>{{$product['created_by_user_name']}}</strong><br></p>								
                 </div>		
                 @endforeach	

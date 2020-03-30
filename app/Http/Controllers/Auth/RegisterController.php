@@ -93,6 +93,7 @@ class RegisterController extends Controller
             $users->password = Hash::make($request->password);
             $users->birthday = $request->birthday;
             $users->gender = $request->gender;
+            $users->user_role = 1;
             $users->save();
 
             return redirect('login')->with("alert-success", " register complete");

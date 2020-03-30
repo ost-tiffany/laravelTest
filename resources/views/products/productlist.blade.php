@@ -80,7 +80,7 @@
         <div class="links">  
             <a>></a> 
             @foreach ($types as $type)
-            <a href="{{ route('list',['type_id'=>$type['type_id']])}}">{{$type["type_name"]}}</a> 
+            <a href="{{ route('productlist',['type_id'=>$type['type_id']])}}">{{$type["type_name"]}}</a> 
             &nbsp;
             @endforeach
         </div>
@@ -93,6 +93,7 @@
                     <th scope="col">No.</th>
                     <th scope="col">商品ID</th>
                     <th scope="col">商品名</th>
+                    <th scope="col">商品類</th>
                     <th scope="col">登録画像</th>
                     <th scope="col"></th>
                 </tr>
@@ -104,6 +105,7 @@
                         <td>{{$i++}}</td>
                         <td> {{ $product["product_id"] }}</td>
                         <td>{{ $product["product_name"] }}</td>
+                        <td>{{ $product["type_name"] }}</td>
                         <td> <a href="/upload/{{ $product["product_id"] }}/{{ $product["product_image"] }}"> 
                                 <img class="img-responsive img-rounded img-thumbnail" style="width: 150px;" src="/upload/{{ $product["product_id"] }}/{{ $product["product_image"] }}" alt="">
                             </a>

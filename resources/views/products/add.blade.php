@@ -41,6 +41,7 @@
                                     </span>
                                 @enderror                  
                             </div>
+                            
                             <div class="form-group">
                                 <div>
                                     <input type="file" id="product_image" name="product_image"  class="form-control @error('product_image') is-invalid @enderror">

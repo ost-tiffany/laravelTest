@@ -16,26 +16,23 @@ use Auth;
 class ProductsController extends Controller
 {
     //panggil class , aturnya di web
-    public function index(Request $request , $product_type=null) {
-        //products latest
-        $products = Products::where('delete_flag', 0)->latest()->limit(10)->get()->toArray();
+    public function index(Request $request , $type_id=null) {
 
-       //product type
-       $types = new Types();
-       $data = $types->getTypeList();
+        // product type
+        $types = new Types();
+        $data = $types->getTypeList();
 
-        return view('products/products' , ['productlist'=> $products , 'types'=>$data]);
-    }
+        $products = new Products();
+        $productslist = $products->getProductlist();
 
-    public function list(Request $request, $type_id) {
-
-        $productslist = Products::where('product_type', $type_id)->where('delete_flag', 0)->get()->toArray();
-
-        //product type
-       $types = new Types();
-       $data = $types->getTypeList();
-
-        return view('products/productlist' , ['productslist'=>$productslist, 'types'=>$data]);
+        if($type_id != '') {
+            //$productslist = Products::join('types', 'products.product_type', '=', 'types.type_id')->where('product_type', $type_id)->where('delete_flag', 0)->get()->toArray();
+            return view('products/productlist' , ['productslist'=>$productslist, 'types'=>$data]);
+        } else {
+            //products latest
+            //$products = Products::join('types', 'products.product_type', '=', 'types.type_id')->where('delete_flag', 0)->latest()->limit(10)->get()->toArray();
+            return view('products/products' , ['productslist'=> $productslist , 'types'=>$data]);
+        }
     }
 
     public function addproduct(Request $request) {
