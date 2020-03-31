@@ -74,6 +74,8 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <input type="submit" class="btn btn-primary btn-sm" name="submit" value="注文">
+                                    &nbsp;
+                                    <a href="{{url()->previous()}}" class="btn btn-danger btn-sm">{{ __('キャンセル') }}</a>
                                 </div>
                             </div>
                         </div>

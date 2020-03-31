@@ -49,6 +49,9 @@ Route::post('/transaction/form',['uses'=>'TransactionController@make', 'as'=>'ma
 Route::get('/transaction/form/confirm',['uses'=>'TransactionController@makesure', 'as'=>'ordersure'])->middleware('auth');
 Route::post('/transaction/form/confirmed',['uses'=>'TransactionController@makesure', 'as'=>'ordersureconfirm'])->middleware('auth');
 
+Route::get('/transaction/edit/{transaction_id}',['uses' =>'TransactionController@editorder', 'as' => 'editorder'])->middleware('auth'); //edit transaction
+Route::post('/transaction/edit/confirm/{transaction_id}',['uses' =>'TransactionController@editorder', 'as' => 'editorderpost'])->middleware('auth'); //edit transaction
+Route::post('/transaction/delete',['uses' =>'TransactionController@delete', 'as' => 'deleteorder'])->middleware('auth'); //delete and cancel transaction
 
 // Auth::routes();
 //middleware kek penengah saat mau manggil dan memperlihatkan gitu

@@ -23,7 +23,7 @@ class ProductsController extends Controller
         $data = $types->getTypeList();
 
         $products = new Products();
-        $productslist = $products->getProductlist();
+        $productslist = $products->getProductlist($type_id);
 
         if($type_id != '') {
             //$productslist = Products::join('types', 'products.product_type', '=', 'types.type_id')->where('product_type', $type_id)->where('delete_flag', 0)->get()->toArray();
@@ -294,12 +294,8 @@ class ProductsController extends Controller
          }
         rename($oldpath2 , $delete.'\\'.$imageOld);
         
-        if($products->product_type == 1) {      
-            return redirect()->back()->with('alert', '削除完了!')->with('type', '削除');
-        }
-        else { 
-            return redirect()->back()->with('alert', '削除完了!')->with('type', '削除');
-        }
+
+        return redirect()->back()->with('alert', '削除完了!')->with('type', '削除');
     }
 
 }

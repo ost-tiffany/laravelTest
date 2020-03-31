@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    <title> 取引フォーム</title>
+    <title> 取引編集</title>
 
 <!--JS !-->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -17,25 +17,22 @@
 
 @section('content')
 
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('取引フォーム') }}</div>
-            <form method="post" action='{{route('makeorderpost')}}'> 
+                <div class="card-header">{{ __('取引編集') }}</div>
+           
+            <form method="post" action='{{route('editorderpost', [$transaction_id])}}'> 
                     @csrf 
                     <div style="margin:30px;">
+                    @foreach ($transaction as $trans)
                         <div class="form-group row">
                             <label for="date" class="col-md-2 col-form-label text-md-right">{{ __('注文日') }}</label>
 
                             <div class="col-md-6">
-                                <input id="date" type="text" class="form-control @error('date') is-invalid @enderror" name="date" value="{{old('date')}}">
-
-                                @error('date')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="date" type="text" class="form-control" name="date" value="{{date("d F Y", strtotime($trans['date']))}}">
                             </div>
                         </div>
 
@@ -43,13 +40,7 @@
                             <label for="address" class="col-md-2 col-form-label text-md-right">{{ __('住所') }}</label>
 
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{old('address')}}" >
-
-                                @error('address')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="address" type="text" class="form-control" name="address" value="{{$trans['address']}}" >
                             </div>
                         </div>
 
@@ -57,29 +48,21 @@
                             <label for="memo" class="col-md-2 col-form-label text-md-right">{{ __('メモ') }}</label>
 
                             <div class="col-md-6">
-                                <textarea id="memo" type="memo"　rows='3' class="form-control @error('memo') is-invalid @enderror" name="memo" value="{{old('memo')}}" > </textarea>
-                                
-                                @error('memo')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <textarea id="memo" type="memo"　rows='3' class="form-control @error('memo') is-invalid @enderror" name="memo" value="{{$trans['memo']}}" > </textarea>
                             </div>
                         </div>
+                    @endforeach
 
                         {{-- order item --}}
                         <hr style="width: 200px; margin-bottom: 10px">
 
                         <div class="form-row col-md-12">
-                                <button type="button" name="adding" id="adding" onclick="add();" class="btn btn-info btn-sm btn-block" style="margin:30px;">新例</button>
+                             <button type="button" name="adding" id="adding" onclick="add();" class="btn btn-info btn-sm btn-block" style="margin:30px;">新例</button>
                         </div>
 
                         <div>
                             <input type="hidden" value="3" id="count">
                             <div id="transactiondetail" name="transactiondetail" >
-                                @php
-                                    $index = 0;   
-                                @endphp
                             @for ($i = 1; $i <=3; $i++)  
                                 <div class="wrapper{{$i}} row" >
                                     <div class="col-md-6 offset-md-1">
@@ -92,22 +75,18 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label for="quantity">数量</label>
-                                        <input type="number" class="form-control @error('*.quantity') is-invalid @enderror" id="quantity"  required name="quantity[]" min="0" value="{{old('quantity')[$index]}}">
-                                        
-                                        {{-- @error('*.quantity')
+                                        <input type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" name="quantity[]" min="0">
+
+                                        @error('quantity')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                        @enderror --}}
-                                        
+                                        @enderror
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" name="deleterow" id="deleterow{{$i}}"  onclick="delete_row({{$i}});" class="btn btn-danger" style="margin-top:30px">削除</button>
                                     </div>
                                 </div>
-                               @php
-                                   $index ++;
-                               @endphp 
                             @endfor
                         </div>
 
@@ -128,10 +107,6 @@
   		for (let index = 1; index <= 3; index++) {
 			$('#item'+index).select2();	  
 		}
-		 
-		$("#date").datepicker({
-			dateFormat: "yy-mm-dd",
-		});
 	});
 
 
@@ -155,7 +130,7 @@
 		var flag = document.getElementById("count").value;
 		//hapus 
 		$(".wrapper"+index).remove();
-		if(flag==1) {
+		if(flag == 1) {
 			document.getElementById("count").value = 0;
 
 		} else {

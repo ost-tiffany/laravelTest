@@ -6,28 +6,65 @@
 
 @section('content')
 
+@if (Session::get('alert'))
+<div name="alertsuccess" id="alertsuccess" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">{{ Session::get('type')}} </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>{{ Session::get('alert') }}</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<script>
+$('#alertsuccess').modal('show');
+</script>
+@endif
+
 <div class="col-8 offset-md-3" style="width:900px">
     <table class="cell-border stripe hover" name="transactiontable" id="transactiontable">
         <thead>
             <tr>
                 <th scope="col">No.</th>
                 <th scope="col">取引ID</th>
+                <th scope="col">注文日</th>
                 <th scope="col">ステータス</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            {{-- @php $i = 1; @endphp
-            @foreach ($productslist as $transaction) --}}
-            {{$transaction["transaction_id"] = 1}}
+            {{$i = 1}}
+            @foreach ($transactions as $transaction)
                 <tr>
-                    {{-- <td>{{$i++}}</td> --}}
-                    <td>d</td>
-                    <td>d</td>
-                    <td>d</td>
+                    <td>{{$i++}}</td>
+                    <td>{{$transaction["transaction_id"]}}</td>
+                    <td>{{date("d F Y", strtotime($transaction["transaction_date"]))}}</td>
+                    <td>@switch($transaction["status"])
+                            @case(1)
+                                {{"準備中"}}
+                                @break
+                            @case(2)
+                                {{"取り消した"}}
+                                @break
+                            @case(3)
+                                {{"済み"}}
+                                @break
+                        @endswitch
+                    </td>
                     <td><a class="btn btn-success" id="viewtransaction" name="viewtransaction" href="{{ route('transactiondetailview',['transaction_id'=>$transaction["transaction_id"]]) }}">表示</a></td>
                 </tr>
-            {{-- @endforeach --}}
+            @endforeach
         </tbody>
     </table>
 </div>
