@@ -15,7 +15,6 @@
     <script type="text/javascript" src={{ asset("bootstrap/js/bootstrap.min.js") }}"></script> --}}
     
      <!-- Scripts bawaan ini -->
-
     <script src="{{ asset('bootstrap/js/jquery-3.4.1.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/jquery.dataTables.min.js') }}" defer></script>
     <script src="{{ asset('js/app.js') }}" ></script>

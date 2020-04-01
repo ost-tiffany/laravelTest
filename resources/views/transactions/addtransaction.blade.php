@@ -80,7 +80,7 @@
                                 @php
                                     $index = 0;   
                                 @endphp
-                            @for ($i = 1; $i <=3; $i++)  
+                                @for ($i = 0; $i <3; $i++)  
                                 <div class="wrapper{{$i}} row" >
                                     <div class="col-md-6 offset-md-1">
                                         <label for="item">アイテム</label>
@@ -92,13 +92,13 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label for="quantity">数量</label>
-                                        <input type="number" class="form-control @error('*.quantity') is-invalid @enderror" id="quantity"  required name="quantity[]" min="0" value="{{old('quantity')[$index]}}">
+                                        <input type="number" class="form-control @error('quantity.'.$index) is-invalid @enderror" id="quantity" name="quantity[]" min="0" value="{{old('quantity')[$index]}}">
                                         
-                                        {{-- @error('*.quantity')
+                                        @error('quantity.'.$index)
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                        @enderror --}}
+                                        @enderror
                                         
                                     </div>
                                     <div class="col-md-1">
@@ -125,7 +125,7 @@
 
 <script>
     $(document).ready(function() {
-  		for (let index = 1; index <= 3; index++) {
+  		for (let index = 0; index < 3; index++) {
 			$('#item'+index).select2();	  
 		}
 		 
@@ -136,8 +136,8 @@
 
 
     function add(){
-		var index = document.getElementById("count").value;
-		var flag =  index + 1;
+		//var index = document.getElementById("count").value;
+		var flag =  parseInt($('#count').val())+1;
 
         var product = '<div class="form-group col-md-6 offset-md-1"><label for="item">Item</label><select class="js-example-basic-single form-control" id="item'+flag+'" name="item[]">@foreach($productname as $product)<option value="{{ $product["product_id"] }}">{{$product["product_id"] .' - '. $product["product_name"] }}</option>@endforeach</select></div>';
 		
@@ -159,7 +159,7 @@
 			document.getElementById("count").value = 0;
 
 		} else {
-			document.getElementById("count").value--;
+            parseInt($('#count').val())-1;
 		}
 	}
 

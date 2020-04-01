@@ -53,9 +53,14 @@ class transactionController extends Controller
                 'date.after' => '登録する日にちは最低のは明日です。' ,
                 'address.required' => '住所を入力してください',
                 'memo.required' => 'メモがない場合「なし」を記入してください',
-                // '*.quantity.required' => '数量を確認してください',
+                //'*.quantity.required' => '数量を確認してください', buat semua pake bintang
             ];
-
+            
+            // for ($i=0; $i <count($request->quantity) ; $i++) { 
+            //     $rules['quantity.'.$i] = 'required';
+            //     $messages['quantity.'.$i.'.required'] = '数量を確認してください';
+            // }
+            
             $validator = Validator::make($request->all(), $rules, $messages);
 
             if($validator->fails()) {
@@ -128,14 +133,81 @@ class transactionController extends Controller
             $products = New Products();
             $productName = $products->getProductNameTransaction();
 
-            $transaction = transaction::where('transaction_id', $transaction_id)->get()->ToArray();
+            $detiltransaction = New Transaction();
+            $detailtransactions = $detiltransaction->getDetailTransactionList($transaction_id);
+            
+            $transactions = transaction::where('transaction_id', $transaction_id)->get()->ToArray();
     
-            return view('transactions/edittransaction' , ['transaction_id'=> $transaction_id, 'transaction' => $transaction, 'productname'=> $productName]);
+            return view('transactions/edittransaction' , ['transaction_id'=> $transaction_id, 'detiltransaction' => $detailtransactions, 'transaction' => $transactions, 'productname'=> $productName]);
         }
+        else if ($request->isMethod('post')) {
+            
+            $order["date"] = $request->date;
+            $order["address"] = $request->address;
+            $order["memo"] = $request->memo;
+            $order["item"] = $request->item;
+            $order["quantity"] = $request->quantity;
+
+            $order["product_name"] = [];
+            $order["product_image"] = [];
+            //jadi array trs di push jadi bisa begini,
+
+            foreach($order["item"] as $item) {
+                $product =  Products::select("product_name", "product_image")->where('product_id', $item)->first();
+                array_push($order["product_name"], $product->product_name );
+                array_push($order["product_image"], $product->product_image );
+            }
+            
+            return view('transactions/confirmedit' , ['transaction_id'=> $transaction_id , 'orders'=> $order]);
+        }   
+    }
+
+    public function editorderconfirm(Request $request, $transaction_id) {
         if ($request->isMethod('post')) {
-            return view('transactions/edittransaction' , ['transaction_id'=> $transaction_id]);
+           
+            $transaction = transaction::find($request->transaction_id);
+
+            $transaction->address = $request->address ;
+            $transaction->memo = $request->memo;
+            $transaction->status = 1;
+            $transaction->transaction_date = date("yy-m-d", strtotime($request->date));
+            $transaction->updated_by_user_id = Auth::User()->user_id;
+            $transaction->updated_by_user_name = Auth::user()->user_name;
+            $transaction->save();
+
+            if($transaction->save()) {
+
+                detail::where('transaction_id',  $request->transaction_id)
+                    ->update(['delete_flag' => 1] );
+                
+                for ($i=0; $i < count($request->item) ; $i++) { 
+                    $detail = New Detail();
+                    $detail->transaction_id = $request->transaction_id;
+                    $detail->product_id = $request->item[$i];
+                    $detail->quantity = $request->quantity[$i];
+                    $detail->updated_by_user_id = Auth::User()->user_id;
+                    $detail->updated_by_user_name = Auth::user()->user_name;
+                    $detail->created_by_user_id = Auth::User()->user_id;
+                    $detail->created_by_user_name = Auth::user()->user_name;
+                    $detail->save();
+
+                    // // echo $request->item[$i]. ' ' . $request->quantity[$i];
+                    // // hanya ganti qty 
+                    // $detail_id = detail::where("product_id" , $request->item[$i])->where("transaction_id", $transaction_id)->first();
+                    // // kalau ganti product id
+                    // $details  = detail::find($detail_id->detail_id);
+                    // $details->product_id = $request->item[$i];
+                    // $details->quantity = $request->quantity[$i];
+                    // $details->updated_by_user_id = Auth::User()->user_id;
+                    // $details->updated_by_user_name =Auth::user()->user_name;
+
+                    // $details->save();
+                    // // detail::where('transaction_id', '=', $request->transaction_id)->update(['product_id' => $request->item[$i]], ['quantity' => $request->quantity[$i]], ['updated_by_user_id' => Auth::User()->user_id], ['updated_by_user_name' => Auth::user()->user_name]);
+                }
+            }
+            return redirect()->route("transactionlist")->with('alert-success', '注文詳細を編集しました！');
         }
-        
+   
     }
 
     public function delete(Request $request) {

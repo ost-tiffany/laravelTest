@@ -50,7 +50,10 @@ Route::get('/transaction/form/confirm',['uses'=>'TransactionController@makesure'
 Route::post('/transaction/form/confirmed',['uses'=>'TransactionController@makesure', 'as'=>'ordersureconfirm'])->middleware('auth');
 
 Route::get('/transaction/edit/{transaction_id}',['uses' =>'TransactionController@editorder', 'as' => 'editorder'])->middleware('auth'); //edit transaction
-Route::post('/transaction/edit/confirm/{transaction_id}',['uses' =>'TransactionController@editorder', 'as' => 'editorderpost'])->middleware('auth'); //edit transaction
+Route::post('/transaction/edit/confirm/{transaction_id}',['uses' =>'TransactionController@editorder', 'as' => 'editorderpost'])->middleware('auth');
+Route::get('/transaction/edit/{transaction_id}/confirm',['uses' =>'TransactionController@editorderconfirm', 'as' => 'editorderpostviewconfirm'])->middleware('auth'); //edit confirmation
+Route::post('/transaction/edit/{transaction_id}/confirmed',['uses' =>'TransactionController@editorderconfirm', 'as' => 'editorderconfirm'])->middleware('auth');
+
 Route::post('/transaction/delete',['uses' =>'TransactionController@delete', 'as' => 'deleteorder'])->middleware('auth'); //delete and cancel transaction
 
 // Auth::routes();

@@ -10,7 +10,7 @@ class DetailTransaction extends Model
 
     protected $primaryKey = 'detail_id';
 
-    protected $fillable = ['transaction_id', 'product_id', 'quantity', 'created_by_user_id', 'created_by_user_name'];
+    protected $fillable = ['transaction_id', 'product_id', 'quantity', 'created_by_user_id', 'created_by_user_name', 'updated_by_user_id', 'updated_by_user_name'];
 
 
     // public function getDetailTransactionList($transaction_id) {

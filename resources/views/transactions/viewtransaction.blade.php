@@ -180,8 +180,8 @@
         });
     </script>
     <script>
-        function showDeleteModal($transaction_id) {
-            $('#modal_transaction_id').val($transaction_id);
+        function showDeleteModal(transaction_id) {
+            $('#modal_transaction_id').val(transaction_id);
             $('#exampleModal').modal('show');
         }
 

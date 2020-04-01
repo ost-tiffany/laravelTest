@@ -32,6 +32,16 @@ $('#alertsuccess').modal('show');
 </script>
 @endif
 
+
+@if (Session::get('alert-success'))
+    <div class="row justify-content-center text-justify">
+        <div class="alert alert-success">
+            {{Session::get('alert-success')}}
+        </div>
+    </div>
+</div>
+@endif
+
 <div class="col-8 offset-md-3" style="width:900px">
     <table class="cell-border stripe hover" name="transactiontable" id="transactiontable">
         <thead>
