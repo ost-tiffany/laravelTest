@@ -56,10 +56,10 @@ class transactionController extends Controller
                 //'*.quantity.required' => '数量を確認してください', buat semua pake bintang
             ];
             
-            // for ($i=0; $i <count($request->quantity) ; $i++) { 
-            //     $rules['quantity.'.$i] = 'required';
-            //     $messages['quantity.'.$i.'.required'] = '数量を確認してください';
-            // }
+            for ($i=0; $i <count($request->quantity) ; $i++) { 
+                $rules['quantity.'.$i] = 'required';
+                $messages['quantity.'.$i.'.required'] = '数量を確認してください';
+            }
             
             $validator = Validator::make($request->all(), $rules, $messages);
 
@@ -83,7 +83,7 @@ class transactionController extends Controller
                     $product =  Products::select("product_name", "product_image")->where('product_id', $item)->first();
                     array_push($order["product_name"], $product->product_name );
                     array_push($order["product_image"], $product->product_image );
-                }
+             }
             //var_dump($order["product_name"]);
             return view('transactions/confirmorder', ['order'=> $order]);
             }
@@ -240,6 +240,6 @@ class transactionController extends Controller
 
             return redirect()->route("transactionlist")->with('alert', $alert)->with('type', $type);
 
-        }
+    }
     
 }

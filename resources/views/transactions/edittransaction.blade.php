@@ -16,15 +16,6 @@
 @endsection
 
 @section('content')
-{{-- {{dd(count($detiltransaction))}} --}}
-{{-- {{var_dump($productname)}}
-<br>
-{{dd($transaction)}}
-<br>
-@foreach ($transaction as $trans)
-{{$trans["memo"]}}
-@endforeach --}}
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -103,7 +94,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label for="quantity">数量</label>
-                                        <input type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" name="quantity[]" min="0" autocomplete="off" value='{{$detiltransaction[$detilno]["quantity"]}}'>
+                                        <input type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" required name="quantity[]" min="0" autocomplete="off" value='{{$detiltransaction[$detilno]["quantity"]}}'>
 
                                         @error('quantity')
                                             <span class="invalid-feedback" role="alert">
@@ -145,11 +136,12 @@
 
     function add(){
 		var flag =  parseInt($('#count').val())+1;
+        flag = flag + Math.floor(Math.random() * 10000);
 
         var product = '<div class="form-group col-md-6 offset-md-1"><label for="item">Item</label><select class="js-example-basic-single form-control" id="item'+flag+'" name="item[]">@foreach($productname as $product)<option value="{{ $product["product_id"] }}">{{$product["product_id"] .' - '. $product["product_name"] }}</option>@endforeach</select></div>';
 		
 
-		var qty = '<div class="col-md-3"><div class="<label for="quantity">数量</label><input type="number" class="form-control" id="quantity" name="quantity[]" min="0"></div></div>';
+		var qty = '<div class="col-md-3"><div class="<label for="quantity">数量</label><input type="number" class="form-control @error('quantity.'.$i) is-invalid @enderror" id="quantity" required name="quantity[]" min="0">@error('quantity.'.$i)<span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>@enderror</div></div>';
 		 
 		$("#transactiondetail").append('<div class="wrapper'+flag+' row" >' + product + qty + '<div class="col-md-1"><button type="button" name="deleterow" id="deleterow'+flag+'"  onclick="delete_row('+flag+');" class="btn btn-danger" style="margin-top:30px;">削除</button></div></div></div>');
 
@@ -160,13 +152,13 @@
     function delete_row(index){
 		var flag = document.getElementById("count").value;
 		//hapus 
-		$(".wrapper"+index).remove();
-		if(flag == 1) {
-			document.getElementById("count").value = 0;
-
-		} else {
-			document.getElementById("count").value--;
-		}
+        if(flag <= 0) {
+			    document.getElementById("count").value = 0;
+            }
+            else {
+                $(".wrapper"+index).remove();
+                document.getElementById("count").value -= 1;
+            }
 	}
 
                                     

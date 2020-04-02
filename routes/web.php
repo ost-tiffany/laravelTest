@@ -56,5 +56,11 @@ Route::post('/transaction/edit/{transaction_id}/confirmed',['uses' =>'Transactio
 
 Route::post('/transaction/delete',['uses' =>'TransactionController@delete', 'as' => 'deleteorder'])->middleware('auth'); //delete and cancel transaction
 
+
+//admin
+Route::get('/products/type', ['uses'=>'ProductsController@status', 'as'=>'productstypehandle'])->middleware('auth'); //mytransaction
+Route::get('/error', ['uses'=>'ProductsController@error', 'as'=>'erroraccess'])->middleware('auth');
+
+Route::post('/products/type/add', ['uses'=>'ProductsController@addtype', 'as'=>'addtype'])->middleware('auth'); //add type
 // Auth::routes();
 //middleware kek penengah saat mau manggil dan memperlihatkan gitu

@@ -10,6 +10,8 @@ class Types extends Model
 
     protected $primaryKey = 'type_id';
 
+    public $timestamps = false; //biar ga ada created at sama updated at otomatis
+
     public function getTypeList() {
         return $this->select()
                     ->get()

@@ -75,13 +75,15 @@
                         </div>
 
                         <div>
-                            <input type="hidden" value="3" id="count">
+                            <input type="hidden" value="" id="count">
+                            @php $index = 1; @endphp  
                             <div id="transactiondetail" name="transactiondetail" >
-                                @php
-                                    $index = 0;   
-                                @endphp
-                                @for ($i = 0; $i <3; $i++)  
-                                <div class="wrapper{{$i}} row" >
+                                @for ($i = 0; $i <3; $i++)       
+                                <script>
+                                    document.getElementById("count").value++;
+                                </script>
+                                
+                                <div class="wrapper{{$index}} row" >
                                     <div class="col-md-6 offset-md-1">
                                         <label for="item">アイテム</label>
                                             <select class="js-example-basic-single form-control" id="item{{$i}}" name="item[]">
@@ -92,9 +94,9 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label for="quantity">数量</label>
-                                        <input type="number" class="form-control @error('quantity.'.$index) is-invalid @enderror" id="quantity" name="quantity[]" min="0" value="{{old('quantity')[$index]}}">
+                                        <input type="number" class="form-control @error('quantity.'.$i) is-invalid @enderror" required id="quantity" name="quantity[]" min="0" value="">
                                         
-                                        @error('quantity.'.$index)
+                                        @error('quantity.'.$i)
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -102,14 +104,13 @@
                                         
                                     </div>
                                     <div class="col-md-1">
-                                        <button type="button" name="deleterow" id="deleterow{{$i}}"  onclick="delete_row({{$i}});" class="btn btn-danger" style="margin-top:30px">削除</button>
+                                        <button type="button" name="deleterow" id="deleterow{{$i}}"  onclick="delete_row({{$index}});" class="btn btn-danger" style="margin-top:30px">削除</button>
                                     </div>
                                 </div>
-                               @php
-                                   $index ++;
-                               @endphp 
+                                @php $index++; @endphp  
                             @endfor
                         </div>
+                        
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -137,29 +138,31 @@
 
     function add(){
 		//var index = document.getElementById("count").value;
-		var flag =  parseInt($('#count').val())+1;
+        var flag =  parseInt($('#count').val())+1;
+        flag = flag + Math.floor(Math.random() * 10000);
 
-        var product = '<div class="form-group col-md-6 offset-md-1"><label for="item">Item</label><select class="js-example-basic-single form-control" id="item'+flag+'" name="item[]">@foreach($productname as $product)<option value="{{ $product["product_id"] }}">{{$product["product_id"] .' - '. $product["product_name"] }}</option>@endforeach</select></div>';
+        var product = '<div class="form-group col-md-6 offset-md-1"><label for="item">アイテム</label><select class="js-example-basic-single form-control" id="item'+flag+'" name="item[]">@foreach($productname as $product)<option value="{{ $product["product_id"] }}">{{$product["product_id"] .' - '. $product["product_name"] }}</option>@endforeach</select></div>';
 		
         // var product = '<div class="col-md-6 offset-md-1"><label for="item">アイテム</label><select class="js-example-basic-single form-control" id="item'+flag+'" name="item[]">'@foreach($productname as $product)'<option value='{{$product["product_id"]}}'>{{$product["product_id"]}} - {{$product["product_name"]}}</option>'@endforeach'</select></div>';
 
-		var qty = '<div class="col-md-3"><div class="<label for="quantity">数量</label><input type="number" class="form-control" id="quantity" name="quantity[]" min="0"></div></div>';
+		var qty = '<div class="col-md-3"><div class="<label for="quantity">数量</label><input type="number" class="form-control @error('quantity.'.$i) is-invalid @enderror" id="quantity" name="quantity[]" required min="0">@error('quantity.'.$i)<span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>@enderror</div></div>';
 		 
 		$("#transactiondetail").append('<div class="wrapper'+flag+' row" >' + product + qty + '<div class="col-md-1"><button type="button" name="deleterow" id="deleterow'+flag+'"  onclick="delete_row('+flag+');" class="btn btn-danger" style="margin-top:30px;">削除</button></div></div></div>');
 
 		$('#item'+flag).select2();
-		document.getElementById("count").value++;
+        document.getElementById("count").value++;
 	}
 
     function delete_row(index){
 		var flag = document.getElementById("count").value;
 		//hapus 
-		$(".wrapper"+index).remove();
-		if(flag==1) {
-			document.getElementById("count").value = 0;
+            if(flag <= 0) {
+			    document.getElementById("count").value = 0;
+            }
+            else {
+                $(".wrapper"+index).remove();
+                document.getElementById("count").value -= 1;
 
-		} else {
-            parseInt($('#count').val())-1;
 		}
 	}
 

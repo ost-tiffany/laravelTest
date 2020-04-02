@@ -26,8 +26,12 @@ class ProductsController extends Controller
         $productslist = $products->getProductlist($type_id);
 
         if($type_id != '') {
-            //$productslist = Products::join('types', 'products.product_type', '=', 'types.type_id')->where('product_type', $type_id)->where('delete_flag', 0)->get()->toArray();
-            return view('products/productlist' , ['productslist'=>$productslist, 'types'=>$data]);
+            $caritipe = types::find($type_id);
+            if( $caritipe != NULL) {
+                return view('products/productlist' , ['productslist'=>$productslist, 'types'=>$data]);
+            } else {
+                return redirect()->route('productlist')->with("alert", "商品類がありません");
+            }
         } else {
             //products latest
             //$products = Products::join('types', 'products.product_type', '=', 'types.type_id')->where('delete_flag', 0)->latest()->limit(10)->get()->toArray();
@@ -298,6 +302,30 @@ class ProductsController extends Controller
         return redirect()->back()->with('alert', '削除完了!')->with('type', '削除');
     }
 
+    public function status() {
+
+            if(Auth::user()->user_role == 2) {
+                $types = new Types();
+                $data = $types->getTypeList();
+
+                return view('products/status' , ['type' => $data]);
+            }
+            else {
+                return redirect()->route('erroraccess');
+            }   
+    }
+
+    public function error() {
+        return view('error');
+    }
+
+    public function addtype(Request $request) {
+        $type = New Types();
+        $type->type_name = $request->new_name;
+        $type->save();
+
+        return redirect()->back()->with('alert', '追加完了')->with('type', '商品類名追加!');
+    }
 }
 
 

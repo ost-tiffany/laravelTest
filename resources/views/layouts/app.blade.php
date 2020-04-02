@@ -73,6 +73,11 @@
                             </li>
                                 <a class="nav-link" href="{{ route('productadd') }}">{{ __('商品追加') }}</a>
                             </li>
+                            @if(auth::user()->user_role == 2)
+                                </li>
+                                    <a class="nav-link" href="{{ route('productstypehandle') }}">{{ __('商品類') }}</a>
+                                </li>
+                            @endif
                             </li>
                                 <a class="nav-link" href="{{ route('makeorder') }}">{{ __('取引') }}</a>
                             </li>
