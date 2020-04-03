@@ -259,5 +259,13 @@ class transactionController extends Controller
             return redirect()->route("transactionlist")->with('alert', $alert)->with('type', $type);
 
     }
+
+
+    //transaction total qty
+    public function count(Request $request, $transaction_id) {
+        $total = detail::where('transaction_id', $transaction_id)->where('delete_flag', 0)->sum('quantity');
+        // select sum(quantity) from detailtransaction where transaction_id=12
+        echo $total;
+    }
     
 }

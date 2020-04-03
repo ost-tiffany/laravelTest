@@ -59,6 +59,7 @@ class ProductsController extends Controller
             $rules = [
                 'product_type' => ['required','not_in:0'],
                 'product_name' => ['required',],
+                'product_stocks' => ['required',],
                 'product_image' => ['required' , 'image', 'mimes:jpg,jpeg,png'],
                 //'img' => ['required', 'image','mimes:jpg,jpeg,png'],
             ];
@@ -66,6 +67,7 @@ class ProductsController extends Controller
             $messages = [
                 'product_type.required' => '商品類を選択しください',
                 'product_name.required' => '商品名を入力してください',
+                'product_stocks.required' => '商品在庫を入力してください',
                 'product_image.required' => '商品画像をアップロードしてください',
                 'product_image.image' => '商品画像は画像だけお願いします',
                 'product_image.mimes' => '商品画像の種類はpng/jpeg/jpgをお願いします。',
@@ -104,6 +106,7 @@ class ProductsController extends Controller
                 $data["product_image"] = $pathimage;
                 $data["product_image_name"] = $imageName;
                 $data["product_type"] = $request->product_type;
+                $data["stocks"] = $request->product_stocks;
                 
                 return view('products/confirmadd' , ['newproducts' => $data, 'types'=>$datatabel]);
             }
@@ -131,6 +134,7 @@ class ProductsController extends Controller
             $products->product_name = $request->product_name;
             $products->product_type = $request->product_type;
             $products->product_image = $request->product_image_name;
+            $products->stocks = $request->product_stocks;
             $products->created_by_user_id = Auth::User()->user_id;
             $products->created_by_user_name = Auth::user()->user_name;
             $products->save();
@@ -184,12 +188,14 @@ class ProductsController extends Controller
             $rules = [
                 'product_type' => ['required','not_in:0'],
                 'product_name' => ['required'],
+                'product_stocks' => ['required'],
                 'product_image' => ['image', 'mimes:jpg,jpeg,png'],
             ];
     
             $messages = [
                 'product_type.required' => '商品類を選択しください',
                 'product_name.required' => '商品名を入力してください',
+                'product_stocks.required' => '商品在庫を入力してください',
                 'product_image.image' => '商品画像は画像だけお願いします',
                 'product_image.mimes' => '商品画像の種類はpng/jpeg/jpgをお願いします。',
             ];
@@ -221,6 +227,7 @@ class ProductsController extends Controller
             
                 $newproduct["product_name"] = $request->product_name;
                 $newproduct["product_type"] = $request->product_type ;
+                $newproduct["stocks"] = $request->product_stocks ;
                 $newproduct["product_image_name"] = $imageName;
                 $newproduct["product_image"] = $pathimage;
                 $newproduct["product_image_name_old"] = $request->product_image_old;
@@ -247,6 +254,7 @@ class ProductsController extends Controller
             $product = Products::find($product_id);
             $product->product_name = $request->product_name;
             $product->product_type = $request->product_type;
+            $product->stocks = $request->product_stocks;
             $product->product_image = $request->product_image_name;
             $product->updated_by_user_id = Auth::User()->user_id;
             $product->updated_by_user_name = Auth::user()->user_name;

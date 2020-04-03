@@ -36,6 +36,12 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="form-group">
+                                <label for="product_stocks">商品在庫</label>
+                                <input type="hidden" id="product_stocks" name="product_stocks" value="{{$productdata['stocks']}}" >
+                                <input type="number" id="product_stocks" name="product_stocks"  class="form-control" value="{{$productdata['stocks']}}" disabled>                  
+                            </div>
                     
                             <div class="form-group">
                                 <div style="width:400px;">

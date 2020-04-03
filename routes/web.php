@@ -64,3 +64,6 @@ Route::get('/error', ['uses'=>'ProductsController@error', 'as'=>'erroraccess'])-
 Route::post('/products/type/add', ['uses'=>'ProductsController@addtype', 'as'=>'addtype'])->middleware('auth'); //add type
 // Auth::routes();
 //middleware kek penengah saat mau manggil dan memperlihatkan gitu
+
+
+Route::get('/getProductCount/{transaction_id}', ['uses'=>'TransactionController@count', 'as'=>'getcount'])->middleware('auth'); //yang ajax transaction

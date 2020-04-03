@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-
     @if (Session::get('alert'))
         <div name="alertsuccess" id="alertsuccess" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -59,6 +58,10 @@
                                 @break
                         @endswitch
                     </td>
+                </tr>
+                <tr>
+                    <th scope="col">総数</th>
+                    <td id="counttotal"></td>
                 </tr>
                 <tr>
                     <th scope="col">住所</th>
@@ -177,6 +180,24 @@
                     }
                     }
                 });
+
+                $.ajax({
+                    url: "/getProductCount/"+{{$transaction_id}} ,
+                    beforeSend: function() { //ini pas ajaxnya mikir
+                        document.getElementById("counttotal").innerHTML = "loading";
+                    },
+                    success: function(result){ 
+                        //tulis di route urlnya, tambah transaction id supaya tau dari mana ambilnya,
+                        //$("#div1").html(result);
+                        console.log(result);
+                        document.getElementById("counttotal").innerHTML = result;
+                    },
+                    error: function(){
+                        document.getElementById("counttotal").style.color = "red";
+                        document.getElementById("counttotal").innerHTML = "error";
+                    }
+                });
+                //liat ngaco di network xhr, pasti 200
         });
     </script>
     <script>
@@ -189,5 +210,6 @@
             $('#modal_transaction_id_cancel').val($transaction_id);
             $('#exampleModal2').modal('show');
         }
+
     </script>
 @endsection

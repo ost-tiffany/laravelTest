@@ -42,13 +42,21 @@
                                     @endforeach 
                                 </select>
 
-                                
-
                                 @error('product_type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                 @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="product_stocks">商品在庫</label>
+                                <input id="product_stocks" name="product_stocks"  type="number" class="form-control @error('product_stocks') is-invalid @enderror" value="{{$productdata['stocks']}}">
+                                @error('product_stocks')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror                  
                             </div>
                     
                             <div class="form-group">

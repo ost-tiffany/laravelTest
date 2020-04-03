@@ -32,6 +32,12 @@
                                     @endforeach   
                                 </select>
                             </div>
+
+                            <div class="form-group">
+                                <label for="product_stocks">商品在庫</label>
+                                <input id="product_stocks" name="product_stocks"  type="hidden"  class="form-control @error('product_stocks') is-invalid @enderror" value="{{$newproducts['stocks']}}" > 
+                                <input id="product_stocks" name="product_stocks"  type="number"  class="form-control @error('product_stocks') is-invalid @enderror" value="{{$newproducts['stocks']}}" disabled>               
+                            </div>
                     
                             <div class="form-group">
                                 <div style="width:400px;">
