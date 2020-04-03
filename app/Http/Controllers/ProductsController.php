@@ -25,9 +25,10 @@ class ProductsController extends Controller
         $products = new Products();
         $productslist = $products->getProductlist($type_id);
 
-        if($type_id != '') {
+        if($type_id != '') {  // typeid dilink 
             $caritipe = types::find($type_id);
             if( $caritipe != NULL) {
+                //// typeid didatabase
                 return view('products/productlist' , ['productslist'=>$productslist, 'types'=>$data]);
             } else {
                 return redirect()->route('productlist')->with("alert", "商品類がありません");
@@ -156,16 +157,26 @@ class ProductsController extends Controller
     }
 
     public function productedit(Request $request, $product_id) {
-
-        //product-type adalah tabel type
-        //product type
         $types = new Types();
         $data = $types->getTypeList();
-
+        
         if($request->isMethod('get')) {
-            $product = Products::where('product_id', $product_id)->get()->toArray();
+            
+            if($product_id != "") {
+                $cariproducts = Products::find($product_id);
+    
+                if($cariproducts == NULL || $cariproducts->delete_flag != 0 ) {
+                    return redirect()->route('productlist')->with("alert", "商品がありません");
+                }
+                else {
+                    //product-type adalah tabel type
+                    //product type
+                    
+                    $product = Products::where('product_id', $product_id)->get()->toArray();
 
-            return view('products/productedit', ['product_id'=>$product_id, 'productsdata'=>$product, 'types'=>$data]);
+                    return view('products/productedit', ['product_id'=>$product_id, 'productsdata'=>$product, 'types'=>$data]);
+                }
+            }
         }
 
         if($request->isMethod('post')) {

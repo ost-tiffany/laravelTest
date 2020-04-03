@@ -19,16 +19,24 @@ class transactionController extends Controller
         return view('transactions/mytransaction', ['transactions' => $transactions]);
     }
 
-    public function show(Request $request, $transaction_id) {
+    public function show(Request $request, $transaction_id=null) {
         $detailtransaction = New Transaction();
         $detailtransactions = $detailtransaction->getDetailTransactionList($transaction_id);
         
         $transaction = New Transaction();
         $transactions = $transaction->getTransactionList($transaction_id);
 
-        //$detailtransactions = Transaction::join('detailtransaction', 'transaction.transaction_id', '=', 'detailtransaction.transaction_id')->where('transaction.transaction_id', $transaction_id)->where('transaction.delete_flag', 0)->get()->toArray();
+        if($transaction_id != "") {
+            $caritransaksi = transaction::find($transaction_id);
 
-        return view('transactions/viewtransaction', ["transaction_id"=> $transaction_id , 'transactions' => $transactions, 'detailtransactions' => $detailtransactions]);
+            if($caritransaksi == NULL) {
+                return redirect()->route('transactionlist')->with("alert-none", "取引がありません");
+            }
+            else {
+                return view('transactions/viewtransaction', ["transaction_id"=> $transaction_id , 'transactions' => $transactions, 'detailtransactions' => $detailtransactions]);
+            }
+            
+        }
     }
 
     public function make(Request $request) {
@@ -130,15 +138,25 @@ class transactionController extends Controller
 
     public function editorder(Request $request, $transaction_id) {
         if ($request->isMethod('get')) {
-            $products = New Products();
-            $productName = $products->getProductNameTransaction();
 
-            $detiltransaction = New Transaction();
-            $detailtransactions = $detiltransaction->getDetailTransactionList($transaction_id);
-            
-            $transactions = transaction::where('transaction_id', $transaction_id)->get()->ToArray();
+            if($transaction_id != "") {
+                $caritransaksi = transaction::find($transaction_id);
     
-            return view('transactions/edittransaction' , ['transaction_id'=> $transaction_id, 'detiltransaction' => $detailtransactions, 'transaction' => $transactions, 'productname'=> $productName]);
+                if($caritransaksi == NULL || $caritransaksi->status != 1 || $caritransaksi->delete_flag != 0 ) {
+                    return redirect()->route('transactionlist')->with("alert-none", "取引がありません");
+                }
+                else {
+                    $products = New Products();
+                    $productName = $products->getProductNameTransaction();
+
+                    $detiltransaction = New Transaction();
+                    $detailtransactions = $detiltransaction->getDetailTransactionList($transaction_id);
+            
+                    $transactions = transaction::where('transaction_id', $transaction_id)->get()->ToArray();
+    
+                    return view('transactions/edittransaction' , ['transaction_id'=> $transaction_id, 'detiltransaction' => $detailtransactions, 'transaction' => $transactions, 'productname'=> $productName]);
+                }
+            }
         }
         else if ($request->isMethod('post')) {
             

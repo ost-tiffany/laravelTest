@@ -5,31 +5,40 @@
 
 @section('content')
 
-@if (Session::get('alert'))
-    <div name="alertsuccess" id="alertsuccess" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ Session::get('type')}} </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    @if (Session::get('alert'))
+        <div name="alertsuccess" id="alertsuccess" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ Session::get('type')}} </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ Session::get('alert') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <p>{{ Session::get('alert') }}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
             </div>
         </div>
+
+
+    <script>
+        $('#alertsuccess').modal('show');
+    </script>
+    @endif
+
+    @if (Session::get('alert-none'))
+        <div class="row justify-content-center text-justify">
+            <div class="alert alert-warning">
+                {{Session::get('alert-none')}}
+            </div>
         </div>
     </div>
-
-
-<script>
-    $('#alertsuccess').modal('show');
-</script>
-@endif
+    @endif
 
     <div class="col-8 offset-md-3" style="width:900px">
         <table class="cell-border stripe hover" name="usertable" id="usertable">

@@ -34,11 +34,18 @@ class UsersController extends Controller
         //profile page blade
         if ($request->isMethod('get')) 
         {
-            //view profile page only
-            $user_data = Users::where('user_id', $user_id)->get()->toArray();
-            return view('users/usersedit', ['user_id'=>$user_id, 'userdata'=>$user_data]);
+            if($user_id != '') {  // typeid dilink 
+                $cariuser = Users::find($user_id);
+                if( $cariuser == NULL || $cariuser->delete_flag != 0) {
+                    //// typeid didatabase
+                    return redirect()->route('userlist')->with("alert-none", "ユーザーがありません");
+                } else {
+                    //view profile page only
+                    $user_data = Users::where('user_id', $user_id)->get()->toArray();
+                    return view('users/usersedit', ['user_id'=>$user_id, 'userdata'=>$user_data]);
+                }
+            } 
         } 
-        
         if($request->isMethod('post')) {
             // if post
            
